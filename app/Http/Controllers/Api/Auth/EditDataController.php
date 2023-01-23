@@ -33,7 +33,7 @@ class EditDataController extends Controller
         $user->nome = request()->input('nome');
         $user->cognome = request()->input('cognome');
         $user->save();
-        return $user;
+        return response()->json($user);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ class EditDataController extends Controller
         } else {
             $user->password = Hash::make(request()->input('newPassword'));
             $user->save();
-            return $user;
+            return response()->json($user);
         }
     }
 }

@@ -24,7 +24,7 @@ class CustomerOrderController extends Controller
             'order' => $request['order'],
             'user_id' => JWTAuth::user()->id
         ]);
-        return $order;
+        return response()->json($order);;
     }
 
     public function update(Request $request,)
@@ -35,7 +35,7 @@ class CustomerOrderController extends Controller
 $customerOrder= new CustomerOrder;
         $customerOrder->order = request()->input('order');
         $customerOrder->save();
-        return $customerOrder;
+        return response()->json($customerOrder);
     }
 
     public function delete(CustomerOrder $customerOrder)

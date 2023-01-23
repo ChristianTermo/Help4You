@@ -13,8 +13,9 @@ class Service extends Model
         'title',
         'description',
         'category',
-        'subcategory',
         'price',
-        'niche'
+        'id_user',
+        'coverage range',
+        'starting point',
     ];
 }

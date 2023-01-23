@@ -16,7 +16,7 @@ class RoleAndPermissionSeeder extends Seeder
      */
     public function run()
     {
-        $superAdminRole = Role::create(['name' => 'Super Admin']);
+       /* $superAdminRole = Role::create(['name' => 'Super Admin']);
         $adminRole = Role::create(['name' => 'Admin']);
         $professionalRole = Role::create(['name' => 'Professional']);
         $RegularUserRole = Role::create(['name' => 'Regular User']);
@@ -58,6 +58,6 @@ class RoleAndPermissionSeeder extends Seeder
             'createCategories',
             'editCategories',
             'deleteCategories',
-        ]);
+        ]);*/
     }
 }

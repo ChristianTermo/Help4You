@@ -10,10 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Zorb\Promocodes\Traits\AppliesPromocode;
 
 class User extends Authenticatable  implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, AppliesPromocode;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +27,8 @@ class User extends Authenticatable  implements JWTSubject
         'telefono',
         'email',
         'password',
-        'google_id'
+        'google_id',
+        'fb_id',
     ];
 
     /**

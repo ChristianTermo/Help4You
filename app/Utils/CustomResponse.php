@@ -40,7 +40,7 @@ class CustomResponse
 
         $params = array(
            Category::all(),
-           Subcategory::all(),
+          
         );
 
         return response()->json($params);

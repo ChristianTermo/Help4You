@@ -27,6 +27,6 @@ class RegisterController extends Controller
         /* if($user!=null){
             event(new UserRegisteredEvent($user));
        };*/
-        return $user;
+        return response()->json($user);
     }
 }

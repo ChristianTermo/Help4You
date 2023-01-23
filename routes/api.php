@@ -24,12 +24,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
 Route::post('auth/login', 'App\Http\Controllers\api\auth\LoginController');
 Route::POST('auth/login/google', 'App\Http\Controllers\api\auth\LoginController@loginByGoogle');
+Route::get('auth/facebook', 'App\Http\Controllers\api\auth\LoginController@facebookRedirect');
+Route::get('auth/facebook/callback', 'App\Http\Controllers\api\auth\LoginController@loginWithFacebook');
+Route::post('apple/login','api\\Auth\\AppleLoginController@login');
 route::post('auth/logout', 'App\Http\Controllers\api\auth\LogoutController');
+
+Route::post('generate/coupon', 'App\Http\Controllers\Api\CouponController@generate');
 
 route::get('getCategories', 'App\Http\Controllers\Api\CategoriesController@getCategories');
 route::post('Create/Categories', 'App\Http\Controllers\Api\CategoriesController@CreateCategories');
-route::post('update/Categories', 'App\Http\Controllers\Api\CategoriesController@UpdateCategories');
+route::post('Update/Categories', 'App\Http\Controllers\Api\CategoriesController@UpdateCategories');
 route::post('Delete/Categories', 'App\Http\Controllers\Api\CategoriesController@DeleteCategories');
+
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');

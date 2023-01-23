@@ -20,7 +20,7 @@ class UpdateController extends Controller
     public function updateToProfessional(Request $request)
     {
        $request->validate([
-            'name' => ['required', 'string', 'max:255', 'exists:sub_categories'],
+            'name' => ['required', 'string', 'max:255', 'exists:categories'],
         ]);
 
         $category=request()->input('name');
@@ -32,11 +32,11 @@ class UpdateController extends Controller
         DB::table('users_categories')->insert(
             [
                 'user_id' => Auth::id(),
-               'category_id' => DB::table('sub_categories')->where('name',  '=' , $category)->value('id'),
+               'category_id' => DB::table('categories')->where('name',  '=' , $category)->value('id'),
             ]
             );
 
-        return $user;
+            return response()->json($user);
     }
 
 
@@ -49,7 +49,7 @@ class UpdateController extends Controller
         $user->removeRole('Professional');
         $user->assignRole('Regular User');
 
-        return $user;
+        return response()->json($user);
     }
 
 
