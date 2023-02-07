@@ -70,10 +70,13 @@ class EditDataController extends Controller
         ]);
     }
 
-    public function resendOtp($telefono){
+    public function resendOtp($id){
         $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
         $client = new \Vonage\Client($basic);
-        
+
+        $user = User::find($id);
+        $telefono = $user->telefono;
+
         $otp = VerificationCode::create([
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)

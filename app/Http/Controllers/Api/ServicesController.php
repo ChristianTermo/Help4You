@@ -13,7 +13,6 @@ class ServicesController extends Controller
     public function getGeocode(Geocoder $geocoder)
     {
        $geocoder->geocode('Los Angeles, CA')->get();
-        return response()->json($geocoder);
     }
 
     public function create(Request $request)
@@ -31,7 +30,7 @@ class ServicesController extends Controller
             'price' => 'required',
         ]);
 
-        $order = Service::create([
+        $service = Service::create([
             'title' => $request['title'],
             'description' => $request['description'],
             'user_id' => Auth::user()->id,
@@ -41,7 +40,7 @@ class ServicesController extends Controller
             'price' => $request['price'],
         ]);
 
-        return $order;
+        return $service;
     }
     public function update(Request $request, $id)
     {
@@ -54,14 +53,15 @@ class ServicesController extends Controller
             'price' => 'required',
         ]);
 
-        $service = Service::find($id);
-
-        $service->title = $request['title'];
-        $service->description = $request['description'];
-        $service->starting_point = $request['starting_point'];
-        $service->category = $request['category'];
-        $service->coverage_range = $request['coverage_range'];
-        $service->price = $request['price'];
+        $service = Service::create([
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'user_id' => Auth::user()->id,
+            'starting_point' => $request['starting_point'],
+            'category' => $request['category'],
+            'coverage_range' => $request['coverage_range'],
+            'price' => $request['price'],
+        ]);
 
         return $service;
     }
