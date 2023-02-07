@@ -31,7 +31,7 @@ class UpdateController extends Controller
 
         DB::table('users_categories')->insert(
             [
-                'user_id' => Auth::id(),
+               'user_id' => Auth::id(),
                'category_id' => DB::table('categories')->where('name',  '=' , $category)->value('id'),
             ]
             );

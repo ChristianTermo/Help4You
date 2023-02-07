@@ -12,13 +12,7 @@ class CategoriesController extends Controller
 {
     public function getCategories()
     {
-       /* $categories = Category::all();
-        $subCategories = SubCategory::all();
-
-        return response()->json($categories).response()->json($subCategories);*/
-
         return CustomResponse::getCategories();
-
     }
 
     public function CreateCategories(Request $request)
@@ -34,20 +28,22 @@ class CategoriesController extends Controller
         return response()->json($category);
     }
 
-    public function UpdateCategories(Request $request, Category $category)
+    public function UpdateCategories(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
         ]);
 
+        $category = Category::find($id);
         $category->name = request()->input('name');
         $category->save();
         return $category;
     }
 
-    public function DeleteCategories(Category $category)
+    public function DeleteCategories(Category $category, $id)
     {
-      
+
+        $category = Category::find($id);
         $category->delete();
         
     }

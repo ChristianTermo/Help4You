@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users_services', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('service_id');
-            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('coupons', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->double('discount');
+            $table->date('expired_at')->nullable();
+            $table->boolean('multi_use')->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_users_services');
+        Schema::dropIfExists('coupons');
     }
 };

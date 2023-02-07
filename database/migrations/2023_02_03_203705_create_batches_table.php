@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('batches', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); 
-            $table->index('name'); 
-            $table->string('category_name'); 
-            $table->index('category_name');
-            $table->foreign('category_name')->references('name')->on('categories')->onDelete('cascade');
-            $table->timestamps();
-         });
+            $table->string('lotto');
+        });
     }
 
     /**
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('batches');
     }
 };

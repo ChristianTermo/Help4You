@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Utils\CustomResponse;
 use App\Http\Traits\PassportToken;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use PHPUnit\Util\Exception;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -55,7 +56,7 @@ class LoginController extends Controller
             $user = new User();
             $user->name = $response->email;
             $user->email = $response->email;
-            $user->password = bcrypt('PUT_RANDOM_PASSWORD_HERE_IF_YOU_WISH');
+            $user->password = Hash::make($response->password);
             $user->save();
         }
 
@@ -79,7 +80,7 @@ class LoginController extends Controller
      
             if($isUser){
                 Auth::login($isUser);
-                return redirect('/dashboard');
+                return response()->json('login effettuato');
             }else{
                 $createUser = User::create([
                     'name' => $user->name,
@@ -89,7 +90,7 @@ class LoginController extends Controller
                 ]);
     
                 Auth::login($createUser);
-                return redirect('/dashboard');
+                return response()->json('login effettuato');
             }
     
         } catch (Exception $exception) {

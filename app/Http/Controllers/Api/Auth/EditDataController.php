@@ -49,13 +49,12 @@ class EditDataController extends Controller
 
         $telefono = $request->input('telefono');
         $otp = VerificationCode::create([
-            'user_id' => Auth::user()->id,
             'otp' => rand(10000, 99999),
-            'expired_at' => Carbon::now()->addMinutes(10)
+            'expire_at' => Carbon::now()->addMinutes(10)
         ]);
 
         $response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'A text message sent using the Nexmo SMS API' . $otp->otp)
+            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:'. "\n" . $otp->otp)
         );
         
         $message = $response->current();
@@ -65,10 +64,35 @@ class EditDataController extends Controller
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
         }
-        
-       
 
+        User::where('id', '=', Auth::user()->id)->update([
+            'telefono'=>Hash::make($request['telefono']),
+        ]);
     }
+
+    public function resendOtp($telefono){
+        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+        $client = new \Vonage\Client($basic);
+        
+        $otp = VerificationCode::create([
+            'otp' => rand(10000, 99999),
+            'expire_at' => Carbon::now()->addMinutes(10)
+        ]);
+
+        $response = $client->sms()->send(
+            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:'. "\n" . $otp->otp)
+        );
+        
+        $message = $response->current();
+        
+        if ($message->getStatus() == 0) {
+            echo "The message was sent successfully\n";
+        } else {
+            echo "The message failed with status: " . $message->getStatus() . "\n";
+        }
+    }
+
+    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function updatePassword(Request $request)

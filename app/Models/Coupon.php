@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Service extends Model
+class Coupon extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'description',
-        'category',
-        'price',
-        'user_id',
-        'coverage_range',
-        'starting_point',
+        'count',
+        'code',
+        'discount',
+        'expired_at',
+        'multi_use',
     ];
 }

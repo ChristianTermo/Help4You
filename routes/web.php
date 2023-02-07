@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+route::get('getPanel', 'App\Http\Controllers\Api\AdminController@getPanel')->name('getPanel');
+route::get('login', 'App\Http\Controllers\Api\AdminController@getLogin')->name('login');
+Route::post('custom-login', [AdminController::class, 'customLogin'])->name('login.custom'); 

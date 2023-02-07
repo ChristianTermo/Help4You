@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CustomerOrder;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerOrderController extends Controller
 {
@@ -27,19 +28,26 @@ class CustomerOrderController extends Controller
         return response()->json($order);;
     }
 
-    public function update(Request $request,)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'order' => 'required',
         ]);
-$customerOrder= new CustomerOrder;
+        $customerOrder = CustomerOrder::find($id);
         $customerOrder->order = request()->input('order');
         $customerOrder->save();
         return response()->json($customerOrder);
     }
 
-    public function delete(CustomerOrder $customerOrder)
+    public function delete(CustomerOrder $customerOrder, $id)
     {
+        $customerOrder = CustomerOrder::find($id);
         $customerOrder->delete();
+    }
+
+    public function getOrders()
+    {
+        $customerOrder = CustomerOrder::where('user_id', '=', Auth::user()->id);
+        return response()->json($customerOrder);
     }
 }

@@ -71,6 +71,11 @@ return [
                     'weight' => 100,
                 ],
             ],
+            
+            "geocode" => [
+                'driver' => 'redis',
+                'connection' => 'geocode-cache',
+            ],
         ],
 
         'redis' => [
