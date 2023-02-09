@@ -39,6 +39,7 @@ route::post('Create/Categories', 'App\Http\Controllers\Api\CategoriesController@
 route::post('Update/Categories/{id}', 'App\Http\Controllers\Api\CategoriesController@UpdateCategories');
 route::post('Delete/Categories/{id}', 'App\Http\Controllers\Api\CategoriesController@DeleteCategories');
 
+route::get('verifyrole','App\Http\Controllers\Api\AdminController@verifyRole');
 
 route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');
 route::post('Update/Services/{id}', 'App\Http\Controllers\Api\ServicesController@update');

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminController;
+use App\Http\Controllers\Api\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +20,7 @@ Route::get('/', function () {
 route::get('getPanel', 'App\Http\Controllers\Api\AdminController@getPanel')->name('getPanel');
 route::get('login', 'App\Http\Controllers\Api\AdminController@getLogin')->name('login');
 Route::post('custom-login', [AdminController::class, 'customLogin'])->name('login.custom'); 
+Route::get('categorie', [AdminController::class, 'categories'])->name('categorie');
+Route::get('user', [AdminController::class, 'users'])->name('user');
+Route::resource('categories', CategoryController::class);
+Route::get('logoutadmin', [AdminController::class, 'logout'])->name('logoutadmin');

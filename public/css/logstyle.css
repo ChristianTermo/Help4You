@@ -1,0 +1,117 @@
+body {
+    background-image: url(/imagines/opening6.jpg);
+    background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+body:after {
+  content: "";
+  position: relative;
+  left: 0; right: 0;
+  top: 0; bottom: 0;
+  background-color: #775a98;
+  opacity: .5;
+}
+
+.main {
+    background-color:  rgba(0,29,184,0.373284347918855);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    margin: 0 auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.content {
+  margin: 0 auto;
+}
+
+.icon {
+  margin: 0 auto;
+  width: 200px;
+  padding:5%;
+  margin-top:3%;
+  margin-bottom:3%;
+}
+.icon img {
+  width: 100%;
+}
+
+
+.inputs {
+  position: relative;
+  margin: 0 50px;
+  padding-bottom:2%;
+}
+
+.login {
+  left: 0;
+  position: absolute;
+  top: -10px;
+  width: 9%;
+}
+
+.lock {
+  left: 0;
+  position: absolute;
+  top: 52px;
+  width: 9%;
+}
+
+.input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid white;
+  box-sizing: border-box;
+  color: white;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 30px;
+  outline: none !important;
+  opacity: .6;
+  padding-bottom: 15px;
+  padding-left: 50px;
+  width: 100%;
+}
+
+.button-container {
+  left: 0;
+  margin: 0 auto;
+  top: 0;
+  width: 100%;
+  padding-bottom:3%;
+}
+
+.button {
+  background-color: #6263be;
+  border: 0;
+  border-radius: 28px;
+  display: block;
+  font-size: 16px;
+  height: 56px;
+  margin: 0 auto;
+  max-width: 300px;
+  outline: none !important;
+  overflow: hidden;
+  top: 560px;
+  transition: box-shadow 150ms;
+  width: 100%;
+}
+
+.button:active {
+  box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sign-in {
+  color: white;
+}
+
+@media (max-width: 500px) {
+  .inputs {
+    margin: 26px;
+    width: 80%;
+}
+}

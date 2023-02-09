@@ -5,17 +5,28 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdminController extends Controller
 {
     public function getPanel()
     {
-        return view('adminPanel');
+        return view('help4you');
     }
 
     public function getLogin()
     {
         return view('login');
+    }
+
+    public function categories()
+    {
+        return view('categories.index');
+    }
+
+    public function users()
+    {
+        return view('');
     }
 
     public function customLogin(Request $request)
@@ -31,7 +42,13 @@ class AdminController extends Controller
                 ->withSuccess('Signed in');
         }
 
-        return redirect("login")->withSuccess('Login details are not valid');
+        return redirect("login")->withErrors('Login details are not valid');
         //return $token;
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('login');
     }
 }

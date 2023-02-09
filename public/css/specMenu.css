@@ -1,0 +1,117 @@
+#personalInfo{
+    margin-top: 5%;
+  }
+  .altbar, #main{
+    width: 100%;
+    top: 0;
+    left:0;
+    display: flex;
+  }
+  
+  #main {
+    background-color:  white;
+  }
+  
+  .altbar {
+    background-image: url(/imagines/backgroundhard.jpg);
+  }
+  
+  #forlog, #forback, #littlecard {
+    width: 33.3%;
+    margin-top:1%;
+  }
+  
+  #logout, #back {
+    background: none;
+    border: none;
+    width: 17% ;
+    padding: 1%;
+  }
+  
+  #back {
+  float: left;
+  }
+  
+  #logout{
+    float: right;
+  }
+  
+  #back:hover{
+    cursor: pointer;
+    background-color: #585DC6;
+    color: white; 
+  }
+  
+  #logout:hover{
+    cursor: pointer;
+    background-color: #585DC6;
+  }
+  
+  
+  #littlecard {
+    margin-bottom: 0.2%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .imgprof{
+    width: 7%;
+    margin: 2%;
+  }
+  
+  .nameuser {
+    color:white;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 5px;
+    font-size: 80%;
+  }
+  
+  .imgprof, .nameuser {
+    display: inline-flex;
+  }
+  
+  .imgprof svg{
+    display:block;
+    margin:auto;
+    width: 90%;
+  }
+  
+  body {
+    background-color: white;
+    padding-top: 0%;
+    margin: 0;
+  }
+  
+  .dimension{
+    margin: auto;
+    width: 100%;
+  }
+  
+  
+  .containerbuttons button {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+    padding: 20px;
+    min-height: 30px; 
+    min-width: 120px;
+    border-radius: 15px;
+    width: 30%;
+    font-size: 100%;
+    transition: transform 2s ease, background-color 1s 5ms ease, color 1s 5ms ease;
+    margin: 1%;
+  }
+  
+  .containerbuttons button:hover{
+    cursor: pointer;
+    background-color: #000099;
+    color: white; 
+  }
+  
+  .containerbuttons{
+    width: 80%;
+    text-align: center;
+    position: relative;
+    padding: 2%;
+    margin: 0 auto;
+  }
