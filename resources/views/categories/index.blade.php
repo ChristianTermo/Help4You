@@ -10,7 +10,7 @@
 </head>
 
 <body>
-@extends('layouts.layout-bootstrap');
+@extends('layouts.layout-bootstrap')
     <!-- Nav superiore -->
     <section class="altbar">
         <!-- pulsante indietro -->
@@ -70,6 +70,7 @@
                 <th>Father id</th>
                 <th>*</th>
                 <th>*</th>
+                <th>*</th>
             </tr>
         </thead>
 
@@ -81,6 +82,9 @@
                 <td>{{$category->name}}</td>
                 <td>{{$category->father_id}}</td>
                 <!-- bottoni collegati alle funzioni del Controller -->
+                <td>
+                    <a class="btn btn-success" href="{{ route('categories.create') }}">CREATE</a>
+                </td>
                 <td>
                     <a class="btn btn-success" href="{{ route('categories.edit', ['category' => $category->id]) }}">EDIT</a>
                 </td>

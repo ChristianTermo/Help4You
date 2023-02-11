@@ -17,14 +17,9 @@
 
 </head>
 <body>
-
-    
-
-    
     <main class="container">
 
         @yield('content')
-
     </main>
     
 </body>

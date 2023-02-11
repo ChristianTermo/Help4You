@@ -10,6 +10,7 @@
 </head>
 
 <body>
+@extends('layouts.layout-bootstrap')
     <!-- Nav superiore -->
     <section class="altbar">
         <!-- pulsante indietro -->
@@ -60,42 +61,40 @@
             </button>
         </div>
     </section>
-    <table class="table table-striped">
+    <form method="POST" action="{{route('categories.store')}}">
 
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Url</th>
-                <th>*</th>
-                <th>*</th>
-            </tr>
-        </thead>
+        @csrf
+        @method('POST')
 
-        <tbody>
-            @foreach ($categories as $category)
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
 
-            <tr>
-                <td>{{$category->id}}</td>
-                <td>{{$category->title}}</td>
-                <td>{{$category->url}}</td>
-                <!-- bottoni collegati alle funzioni del Controller -->
-                <td>
-                    <a class="btn btn-success" href="{{ route('categories.edit', ['category' => $category->id]) }}">EDIT</a>
-                </td>
-                <td>
-                    <form method='POST' action="{{ route('categories.destroy', ['category' => $category->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <input class="btn btn-danger" type="submit" value="DELETE">
-                    </form>
-                </td>
-            </tr>
+        <div class="form-group">
+            <label for="name">Nome categoria</label>
+            <input type="text" class="form-control" name="name" placeholder="name">
+        </div>
 
-            @endforeach
-        </tbody>
+        <div class="form-group">
+            <label for="father_id">Url</label>
+            <div style="display: flex">
 
-    </table>
+                <input id="father_id" type="text" class="form-control" name="father_id" placeholder="father_id" readonly>
+                &nbsp;&nbsp;
+                <button type="button" id="btn-change-url" class="btn btn-info">CHANGE&nbsp;URL</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">SUBMIT</button>
+
+    </form>
+
 </body>
 
 </html>

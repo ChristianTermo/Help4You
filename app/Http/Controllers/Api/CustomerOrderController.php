@@ -47,7 +47,7 @@ class CustomerOrderController extends Controller
 
     public function getOrders()
     {
-        $customerOrder = CustomerOrder::where('user_id', '=', Auth::user()->id);
+        $customerOrder = CustomerOrder::where('user_id', '=', Auth::user()->id)->get();
         return response()->json($customerOrder);
     }
 }

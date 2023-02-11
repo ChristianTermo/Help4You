@@ -24,3 +24,8 @@ Route::get('categorie', [AdminController::class, 'categories'])->name('categorie
 Route::get('user', [AdminController::class, 'users'])->name('user');
 Route::resource('categories', CategoryController::class);
 Route::get('logoutadmin', [AdminController::class, 'logout'])->name('logoutadmin');
+
+Route::get('auth/facebook', 'App\Http\Controllers\api\auth\LoginController@facebookRedirect');
+Route::get('auth/facebook/callback', 'App\Http\Controllers\api\auth\LoginController@loginWithFacebook');
+Route::get('auth/login/google', 'App\Http\Controllers\api\auth\LoginController@redirect');
+Route::get('login/google/callback', 'App\Http\Controllers\api\auth\LoginController@loginByGoogle');

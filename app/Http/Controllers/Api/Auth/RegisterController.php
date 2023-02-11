@@ -33,9 +33,11 @@ class RegisterController extends Controller
         $user->assignRole('Regular User');
 
         $otp = VerificationCode::create([
+            'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
+
         $telefono = $request->input('telefono');
         $response = $client->sms()->send(
             new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
@@ -62,6 +64,7 @@ class RegisterController extends Controller
             return response()->json('codice non valido');
         } else {
             return response()->json('codice validato');
+            $otp->delete();
         }
     }
 }

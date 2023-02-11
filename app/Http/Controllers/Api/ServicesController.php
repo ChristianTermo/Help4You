@@ -71,4 +71,10 @@ class ServicesController extends Controller
         $service = Service::find($id);
         $service->delete();
     }
+
+    public function getServices()
+    {
+       $services = Service::where('user_id', '=', Auth::user()->id)->get();
+       return response()->json($services);
+    }
 }

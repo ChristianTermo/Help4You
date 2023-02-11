@@ -34,7 +34,7 @@ return [
     'facebook' => [
         'client_id' => '717888559922075', //USE FROM FACEBOOK DEVELOPER ACCOUNT
         'client_secret' => '5b95120049320cd6ff5fb47b46ef1fee', //USE FROM FACEBOOK DEVELOPER ACCOUNT
-        'redirect' => ''
+        'redirect' => 'http://127.0.0.1:8000/auth/facebook/callback'
     ],
 
     'vonage' => [
@@ -48,9 +48,9 @@ return [
     ],
 
     'google' => [
-        'client_id' => '574724469770-k1l8118j03qldh9g6dp6v52fdppah02b.apps.googleusercontent.com',
-        'client_secret' => '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', 
-        'redirect' => ''
+        'client_id' => '574724469770-v47ss67hjmogn5cstj0i6jelu4c46si1.apps.googleusercontent.com',
+        'client_secret' => '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', 
+        'redirect' => 'http://127.0.0.1:8000/login/google/callback'
     ],
 
     "apple" => [
