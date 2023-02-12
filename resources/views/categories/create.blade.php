@@ -82,13 +82,10 @@
         </div>
 
         <div class="form-group">
-            <label for="father_id">Url</label>
+            <label for="category">A quale categoria appartiene?</label>
             <div style="display: flex">
-
-                <input id="father_id" type="text" class="form-control" name="father_id" placeholder="father_id" readonly>
+                <input id="category" type="text" class="form-control" name="category" placeholder="categoria">
                 &nbsp;&nbsp;
-                <button type="button" id="btn-change-url" class="btn btn-info">CHANGE&nbsp;URL</button>
-            </div>
         </div>
 
         <button type="submit" class="btn btn-success">SUBMIT</button>

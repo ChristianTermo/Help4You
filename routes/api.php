@@ -40,10 +40,7 @@ Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generate
 
 
 
-route::get('getCategories', 'App\Http\Controllers\Api\CategoriesController@getCategories');
-route::post('Create/Categories', 'App\Http\Controllers\Api\CategoriesController@CreateCategories');
-route::post('Update/Categories/{id}', 'App\Http\Controllers\Api\CategoriesController@UpdateCategories');
-route::post('Delete/Categories/{id}', 'App\Http\Controllers\Api\CategoriesController@DeleteCategories');
+route::get('getCategories', 'App\Http\Controllers\Api\CategoryController@getCategories');
 
 
 route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Utils\CustomResponse;
 
 class CategoryController extends Controller
 {
@@ -44,17 +45,18 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|max:100',
-            'father_id' => 'required|max:100'
+            'category' => 'exists:categories,name'
         ]);
 
         $category = new Category();
+        $father_id = Category::where('name', '=', $request->input('category'))->value('id');
 
         $category->name = $request->input('name');
-        $category->father_id = $request->input('father_id');
+        $category->father_id = $father_id;
 
         $category->save();
-
-        return redirect()->route('categories.index')->with('success', 'Photo added successfully');
+       // return $father_id;
+         return redirect()->route('categories.index')->with('success', 'Category added successfully');
     }
 
     /**
@@ -96,13 +98,15 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|max:100',
-            'father_id' => 'integer'
+            'category' => 'exists:categories,name'
         ]);
 
         $category = new Category();
 
+        $father_id = Category::where('name', '=', $request->category)->value('id');
+
         $category->name = $request->input('name');
-        $category->father_id = $request->input('father_id');
+        $category->father_id = $father_id;
 
         $category->save();
 
@@ -119,5 +123,10 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Photo removed successfully');
+    }
+
+    public function getCategories()
+    {
+        return CustomResponse::getCategories();
     }
 }

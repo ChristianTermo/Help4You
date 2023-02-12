@@ -39,8 +39,7 @@ class CustomResponse
     public static function getCategories(){
 
         $params = array(
-           Category::all(),
-          
+           Category::all(),   
         );
 
         return response()->json($params);
