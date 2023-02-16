@@ -44,7 +44,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:100',
+            'name' => 'required|max:100|unique:categories,name',
             'category' => 'exists:categories,name'
         ]);
 
@@ -55,8 +55,8 @@ class CategoryController extends Controller
         $category->father_id = $father_id;
 
         $category->save();
-       // return $father_id;
-         return redirect()->route('categories.index')->with('success', 'Category added successfully');
+        // return $father_id;
+        return redirect()->route('categories.index')->with('success', 'Category added successfully');
     }
 
     /**
@@ -94,23 +94,18 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|max:100',
-            'category' => 'exists:categories,name'
+            'name' => 'required|max:100|unique:categories,name',
         ]);
-
-        $category = new Category();
-
-        $father_id = Category::where('name', '=', $request->category)->value('id');
+        $category =  Category::find($id);
 
         $category->name = $request->input('name');
-        $category->father_id = $father_id;
 
         $category->save();
 
-        return 'ok';
+        return redirect()->route('categories.index');
     }
 
     /**

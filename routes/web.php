@@ -29,3 +29,5 @@ Route::get('auth/facebook', 'App\Http\Controllers\api\auth\LoginController@faceb
 Route::get('auth/facebook/callback', 'App\Http\Controllers\api\auth\LoginController@loginWithFacebook');
 Route::get('auth/login/google', 'App\Http\Controllers\api\auth\LoginController@redirect');
 Route::get('login/google/callback', 'App\Http\Controllers\api\auth\LoginController@loginByGoogle');
+
+Route::put('editCat/{id}', [CategoryController::class, 'update'])->name('editCat');

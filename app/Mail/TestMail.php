@@ -36,6 +36,6 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->from('Help4You')->view('email-template');
+        return $this->from('Help4You@mail.it')->view('email-template');
     }
 }

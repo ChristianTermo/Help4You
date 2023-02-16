@@ -18,10 +18,6 @@ use Vonage\SMS\Message\SMS;
 
 class EditDataController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('jwt.auth');
-    }
 
     function updateName(Request $request)
     {
@@ -70,17 +66,16 @@ class EditDataController extends Controller
         ]);
     }
 
-    public function resendOtp($id){
+    public function resendOtp(Request $request){
         $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
         $client = new \Vonage\Client($basic);
-
-        $user = User::find($id);
-        $telefono = $user->telefono;
 
         $otp = VerificationCode::create([
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
+
+        $telefono = $request->telefono;
 
         $response = $client->sms()->send(
             new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:'. "\n" . $otp->otp)

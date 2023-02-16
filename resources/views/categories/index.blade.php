@@ -61,6 +61,7 @@
             </button>
         </div>
     </section>
+    <a class="btn btn-success" href="{{ route('categories.create') }}">CREATE A NEW CATEGORY</a>
     <table class="table table-striped">
 
         <thead>
@@ -68,7 +69,6 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Father id</th>
-                <th>*</th>
                 <th>*</th>
                 <th>*</th>
             </tr>
@@ -82,9 +82,7 @@
                 <td>{{$category->name}}</td>
                 <td>{{$category->father_id}}</td>
                 <!-- bottoni collegati alle funzioni del Controller -->
-                <td>
-                    <a class="btn btn-success" href="{{ route('categories.create') }}">CREATE</a>
-                </td>
+           
                 <td>
                     <a class="btn btn-success" href="{{ route('categories.edit', ['category' => $category->id]) }}">EDIT</a>
                 </td>
