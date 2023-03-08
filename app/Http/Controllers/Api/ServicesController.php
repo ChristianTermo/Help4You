@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+
 use App\Http\Controllers\Controller;
+use App\Models\CustomerOrder;
+use App\Models\Proposal;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Geocoder\Laravel\ProviderAndDumperAggregator as Geocoder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class ServicesController extends Controller
 {
     public function getGeocode(Geocoder $geocoder)
     {
-       $geocoder->geocode('Los Angeles, CA')->get();
+        $geocoder->geocode('Los Angeles, CA')->get();
     }
 
     public function create(Request $request)
@@ -74,7 +80,29 @@ class ServicesController extends Controller
 
     public function getServices()
     {
-       $services = Service::where('user_id', '=', Auth::user()->id)->get();
-       return response()->json($services);
+        $services = Service::where('user_id', '=', Auth::user()->id)->get();
+        return response()->json($services);
+    }
+
+    public function makeProposal(Request $request, $id)
+    {
+          $request->validate([
+            'price' => 'required',
+            'description' => 'required',
+            'delivery_time' => 'required',
+        ]);
+
+        $to_user = CustomerOrder::find($id);
+
+        $proposal = Proposal::create([
+            'price' => $request['price'],
+            'description' => $request['description'],
+            'delivery_time' => $request['delivery_time'],
+            'from_user' => Auth::user()->id,
+            'to_user' => $to_user->user_id,
+            'id_order' => $id,
+        ]);
+
+        return $proposal;
     }
 }

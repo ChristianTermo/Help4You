@@ -25,9 +25,11 @@ Route::get('user', [AdminController::class, 'users'])->name('user');
 Route::resource('categories', CategoryController::class);
 Route::get('logoutadmin', [AdminController::class, 'logout'])->name('logoutadmin');
 
+route::get('getCouponPage', 'App\Http\Controllers\Api\CouponController@getCouponPage')->name('getCouponPage');
+Route::post('generate/coupon', 'App\Http\Controllers\Api\CouponController@generate')->name('generate');
+
+
 Route::get('auth/facebook', 'App\Http\Controllers\api\auth\LoginController@facebookRedirect');
 Route::get('auth/facebook/callback', 'App\Http\Controllers\api\auth\LoginController@loginWithFacebook');
 Route::get('auth/login/google', 'App\Http\Controllers\api\auth\LoginController@redirect');
 Route::get('login/google/callback', 'App\Http\Controllers\api\auth\LoginController@loginByGoogle');
-
-Route::put('editCat/{id}', [CategoryController::class, 'update'])->name('editCat');

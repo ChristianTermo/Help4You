@@ -32,7 +32,7 @@
                                 <path d="M37.073 994.83s-1.39-18.398 12.97-18.398c14.36 0 12.207 18.397 12.207 18.397" />
                             </g>
                         </svg>
-                        <input class="input" type="password" name="password" placeholder="password" id="password" required>
+                        <input class="input" type="password" name="password" placeholder="password" id="password" autocomplete="on" required>
                         
                         <button class="button">
                             <div class="circle animate"></div><span class="sign-in">Sign in</span>

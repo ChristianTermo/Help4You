@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class CouponController extends Controller
 {
+    public function getCouponPage()
+    {
+        
+        return view('coupon');
+    }
+
     public function generate(Request $request)
     {
         $request->validate([
@@ -20,34 +26,42 @@ class CouponController extends Controller
             'multi_use' => 'boolean',
         ]);
 
-        $mask = 'xxXXXXXXxx';
+        $mask = 'xxXXXXXXyy';
         $findCode = 'XXXXXX';
         $findLotto = 'xx';
+        $findLotto2 = 'yy';
 
         $generatedLotto = $this->generateLotto();
-        $lottoCode  = str_replace($findLotto, $generatedLotto, $mask);
+        $arr1 = str_split($generatedLotto, 2);
+        //return $arr1;
+        $lottoCode  = str_replace($findLotto, $arr1[0], $mask);
+        $lottoCode2  = str_replace($findLotto2, $arr1[1], $lottoCode);
+
+        //return $lottoCode2;
 
         $count = $request->input('count') + (10/100)*$request->input('count');
 
         for ($i = 0; $i < $count; $i++) {
         $generatedCode= $this->generateCode();
-        $code = str_replace($findCode, $generatedCode, $lottoCode);
-            $coupon = Coupon::make([
+        $code = str_replace($findCode, $generatedCode, $lottoCode2);
+            $coupon[$code] = Coupon::make([
                 'code' => $code,
                 'discount' => $request['discount'],
                 'expired_at' => $request['expired_at'],
                 'multi_use' => $request['multi_use'],
-            ]);
+            ]);        
         }
-
         foreach ($coupon as $key => $value) {
-            Coupon::insert([
+            $generatedCode= $this->generateCode();
+            $code = str_replace($findCode, $generatedCode, $lottoCode);
+            Coupon::create([               
                 'code' => $code,
                 'discount' => $request['discount'],
                 'expired_at' => $request['expired_at'],
                 'multi_use' => $request['multi_use'],
             ]);
         }
+        
        // return $count;
         return response()->json('coupon created successfully');
     }
@@ -71,7 +85,7 @@ class CouponController extends Controller
         $charactersLength = strlen($characters);
         $randomLotto = '';
         do {
-            for ($i = 0; $i < 2; $i++) {
+            for ($i = 0; $i < 4; $i++) {
                 $randomLotto .= $characters[rand(0, $charactersLength - 1)];
                 $countLotto = batch::where('lotto', '=', $randomLotto)->count();
             }

@@ -30,9 +30,9 @@ class LoginController extends Controller
         } catch (JWTException $e) {
             return response()->json('login fallito');
         }
-       //return $token;
-       return response()->json(Auth::user());
-       // return CustomResponse::setSuccessResponse($token, '') . $token;
+        
+       return $token;
+       //return response()->json(Auth::user());
     }
 
     public function redirect()

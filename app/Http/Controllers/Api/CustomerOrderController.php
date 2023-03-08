@@ -7,6 +7,7 @@ use App\Models\CustomerOrder;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CustomerOrderController extends Controller
 {
@@ -49,5 +50,40 @@ class CustomerOrderController extends Controller
     {
         $customerOrder = CustomerOrder::where('user_id', '=', Auth::user()->id)->get();
         return response()->json($customerOrder);
+    }
+
+    public function getProposals()
+    {
+       $proposals = DB::table('proposals')
+       ->where('to_user', '=', Auth::user()->id)
+       ->where('is_accepted', '=', null)
+       ->get();
+
+       return $proposals;
+    }
+
+    public function acceptProposal(Request $request, $id)
+    {
+        $request->validate([
+            'accepted' => ['required'],
+        ]);
+
+        $accepted = $request['accepted'];
+
+        if ($accepted == true) {
+            DB::table('proposals')
+                ->where('id', $id)
+                ->update(
+                    [
+                        'is_accepted' => true,
+                    ]
+                );
+        } else {
+            DB::table('proposals')
+                ->where('id', $id)
+                ->delete();
+        }
+
+        return response()->json('proposal updated');
     }
 }
