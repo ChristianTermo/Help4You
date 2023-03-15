@@ -29,4 +29,13 @@ class ChatController extends Controller
 
         return 'message sent successfully';
     }
+
+    public function retrieveMessages($to_id)
+    {
+       $message = ChMessage::all()
+       ->where('from_id', '=', Auth::user()->id)
+       ->where('to_id' ,'=' ,$to_id);
+
+       return $message;
+    }
 }

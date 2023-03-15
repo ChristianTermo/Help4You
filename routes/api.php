@@ -56,6 +56,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     route::get('getProposals', 'App\Http\Controllers\Api\CustomerOrderController@getProposals');
     route::post('create/proposal/{id}', 'App\Http\Controllers\Api\ServicesController@makeProposal');
     Route::post('acceptProposal/{id}', 'App\Http\Controllers\Api\CustomerOrderController@acceptProposal');
+    Route::post('message', 'App\Http\Controllers\Api\ChatController@message');
+    Route::get('retrieveMessages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages/{}');
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {
