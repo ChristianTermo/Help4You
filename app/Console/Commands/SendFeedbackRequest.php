@@ -41,6 +41,5 @@ class SendFeedbackRequest extends Command
             $old =  DB::table('proposals')->where('delivery_time', '<', Carbon::now())->where('id', '=', $value);
             $old->delete();
         }
-
     }
 }
