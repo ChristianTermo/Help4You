@@ -18,7 +18,7 @@ class LoginController extends Controller
 {
     use PassportToken;
 
-    public function __invoke(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email',  'password');
         try {

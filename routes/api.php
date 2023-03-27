@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,18 +21,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
-Route::post('auth/login', 'App\Http\Controllers\api\auth\LoginController');
+Route::post('auth/login', 'App\Http\Controllers\api\auth\LoginController@login');
 Route::post('apple/login', 'api\\Auth\\AppleLoginController@login');
 route::post('auth/logout', 'App\Http\Controllers\api\auth\LogoutController');
-
-
 Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generateCode');
-
-Route::post('message', 'App\Http\Controllers\Api\ChatController@message');
-
 Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@validateOtp');
 Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@resendOtp');
-
 Route::post('auth/forget/password', 'App\Http\Controllers\Api\Auth\ForgotPasswordController@submitForgetPasswordForm');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
