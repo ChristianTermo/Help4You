@@ -51,6 +51,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('acceptProposal/{id}', 'App\Http\Controllers\Api\CustomerOrderController@acceptProposal');
     Route::post('message', 'App\Http\Controllers\Api\ChatController@message');
     Route::get('retrieveMessages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages/{}');
+    Route::post('stripePayment', 'App\Http\Controllers\Api\PaymentController@stripePayment');
+    Route::post('paypalPayment', 'App\Http\Controllers\Api\PaymentController@postPaymentWithpaypal');
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {
