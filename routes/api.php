@@ -21,9 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
-Route::post('auth/login', 'App\Http\Controllers\api\auth\LoginController@login');
+Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
 Route::post('apple/login', 'api\\Auth\\AppleLoginController@login');
-route::post('auth/logout', 'App\Http\Controllers\api\auth\LogoutController');
+route::post('auth/logout', 'App\Http\Controllers\Api\Auth\LogoutController');
 Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generateCode');
 Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@validateOtp');
 Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@resendOtp');
@@ -56,6 +56,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {
-    Route::get('auth/login/facebook',  'App\Http\Controllers\api\auth\LoginController@loginUsingFacebook');
-    Route::get('callback',  'App\Http\Controllers\api\auth\LoginController@callbackFromFacebook');
+    Route::get('auth/login/facebook',  'App\Http\Controllers\Api\Auth\LoginController@loginUsingFacebook');
+    Route::get('callback',  'App\Http\Controllers\Api\Auth\LoginController@callbackFromFacebook');
 });

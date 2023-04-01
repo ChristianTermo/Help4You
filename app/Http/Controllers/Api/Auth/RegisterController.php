@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\support\Facades\Hash;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use PhpParser\Node\Expr\Cast\String_;
 use Spatie\Permission\Traits\HasRoles;
