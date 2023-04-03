@@ -28,6 +28,7 @@ Route::get('logoutadmin', [AdminController::class, 'logout'])->name('logoutadmin
 route::get('getCouponPage', 'App\Http\Controllers\Api\CouponController@getCouponPage')->name('getCouponPage');
 Route::post('generate/coupon', 'App\Http\Controllers\Api\CouponController@generate')->name('generate');
 
+route::get('getTransactions', 'App\Http\Controllers\Api\PaymentController@getTransactions')->name('getTransactions');
 
 Route::get('auth/facebook', 'App\Http\Controllers\api\auth\LoginController@facebookRedirect');
 Route::get('auth/facebook/callback', 'App\Http\Controllers\api\auth\LoginController@loginWithFacebook');

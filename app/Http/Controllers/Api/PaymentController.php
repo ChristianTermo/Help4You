@@ -28,6 +28,7 @@ class PaymentController extends Controller
             "currency" => "eur",
             "source" => $request->stripeToken,
             "description" => $request->description,
+            "card" => $request->card
         ]);
 
         $payment = Payment::create([
@@ -64,5 +65,16 @@ class PaymentController extends Controller
         ]);
 
         return response()->json($paymentObj);
+    }
+
+    public function getTransactions()
+    {
+        $payments = Payment::all();
+
+        $data = [
+            'payments' => $payments
+        ];
+
+        return view('transactions', $data);
     }
 }

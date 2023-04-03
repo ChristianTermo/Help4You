@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('/css/specMenu.css') }}" />
-    <title>Admin Panel</title>
+    <title>Transazioni</title>
 </head>
 
 <body>
+@extends('layouts.layout-bootstrap')
     <!-- Nav superiore -->
     <section class="altbar">
         <!-- pulsante indietro -->
@@ -43,7 +43,7 @@
         </div>
         <!-- pulsante logout -->
         <div id="forlog">
-            <form action="{{ route('logout') }}" method="get">
+            <form action="{{ route('logoutadmin') }}" method="get">
                 <button id="logout">
             </form>
             <svg fill="#000000" width="40%" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 384.971 384.971" xml:space="preserve">
@@ -61,42 +61,27 @@
             </button>
         </div>
     </section>
-    <!-- button container-->
-    <section id="main">
-        <div class="dimension">
-            <div id="checkin" class="containerbuttons">
-                <form action="{{ route('categories.index') }}" method="get">
-                    <button type="submit">Gestione Categorie</button>
-                </form>
-            </div>
-        </div>
+    <table class="table table-striped">
 
-        <div class="dimension">
-            <div id="checkin" class="containerbuttons">
-                <form action="" method="get">
-                    <button type="submit">Gestione Utenti</button>
-                </form>
-            </div>
-        </div>
+        <thead>
+            <tr>
+                <th>date</th>
+                <th>amount</th>
+                <th>description</th>
+            </tr>
+        </thead>
 
-        <div class="dimension">
-            <div id="checkin" class="containerbuttons">
-                <form action="{{ route('getTransactions') }}" method="get">
-                    <button type="submit">Gestione Transazioni</button>
-                </form>
-            </div>
-        </div>
+        <tbody>
+            @foreach ($payments as $payment)
+            <tr>
+                <td>{{$payment->date}}</td>
+                <td>{{$payment->amount}}</td>
+                <td>{{$payment->description}}</td>
+            </tr>
+            @endforeach
+        </tbody>
 
-        <div class="dimension">
-            <div id="checkin" class="containerbuttons">
-                <form action="{{ route('getCouponPage') }}" method="get">
-                    <button type="submit">Gestione Coupon</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-
+    </table>
 </body>
 
 </html>
