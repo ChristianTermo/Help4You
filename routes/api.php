@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
+Route::post('register/professional', 'App\Http\Controllers\Api\Auth\RegisterController@registerProfessional');
 Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
 Route::post('apple/login', 'api\\Auth\\AppleLoginController@login');
 route::post('auth/logout', 'App\Http\Controllers\Api\Auth\LogoutController');
@@ -53,6 +54,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('retrieveMessages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages/{}');
     Route::post('stripePayment', 'App\Http\Controllers\Api\PaymentController@stripePayment');
     Route::post('paypalPayment', 'App\Http\Controllers\Api\PaymentController@postPaymentWithpaypal');
+    Route::post('reverseTransactions/{id}', 'App\Http\Controllers\Api\PaymentController@reverseTransactions');
+    
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {

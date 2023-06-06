@@ -2,42 +2,55 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use Stripe\Charge;
+use Stripe\Refund;
 use Stripe\Stripe;
 use PayPal\Api\Item;
 use PayPal\Api\Payer;
 use PayPal\Api\Amount;
-use PayPal\Api\Payment as PaypalPayment;
-use PayPal\Api\Transaction;
-use Illuminate\Http\Request;
 use App\Models\Payment;
-
+use PayPal\Api\Transaction;
+use PayPal\Rest\ApiContext;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
+use PayPal\Api\Refund as ApiRefund;
 use App\Http\Controllers\Controller;
+use PayPal\Auth\OAuthTokenCredential;
+use Illuminate\Support\Facades\Config;
+use PayPal\Api\Payment as PaypalPayment;
+
 
 class PaymentController extends Controller
 {
+    private $_api_context;
+    
+    public function __construct()
+    {            
+        $paypal_configuration = Config::get('paypal');
+        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_configuration['client_id'], $paypal_configuration['secret']));
+        $this->_api_context->setConfig($paypal_configuration['settings']);
+    }
+    
     public function stripePayment(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
-        //dd($request->stripeToken);
 
-        Charge::create([
-            "amount" => $request->amount * 100,
+        $charge = Charge::create([
+            "amount" => $request->amount * 10,
             "currency" => "eur",
             "source" => $request->stripeToken,
             "description" => $request->description,
-            "card" => $request->card
         ]);
 
         $payment = Payment::create([
             'amount' => $request->amount,
             'date' => Carbon::now()->format('Y-m-d-H-i-s'),
             'description' => $request->description,
+            'charge_id' => $charge->id
         ]);
 
-        return response()->json($payment);
+        return response()->json($charge);
     }
 
     public function postPaymentWithpaypal(Request $request)
@@ -64,7 +77,7 @@ class PaymentController extends Controller
             'description' => $request->description,
         ]);
 
-        return response()->json($paymentObj);
+        return response()->json($payer);
     }
 
     public function getTransactions()
@@ -76,5 +89,23 @@ class PaymentController extends Controller
         ];
 
         return view('transactions', $data);
+    }
+
+    public function reverseTransactions($id)
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $transaction = Payment::find($id);
+
+        $refund = Refund::create(
+            [
+                'charge' => $transaction->charge_id,
+                'amount' => $transaction->amount,
+                'reason' => 'duplicate'
+            ]
+        );
+
+        $transaction->delete();
+        return 'transaction refunded successfully';
     }
 }
