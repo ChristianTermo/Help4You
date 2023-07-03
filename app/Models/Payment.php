@@ -10,6 +10,6 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'amount', 'description'
+        'date', 'amount', 'description', 'charge_id'
     ];
 }

@@ -29,7 +29,8 @@ class RegisterRequest extends FormRequest
                 'cognome'=>'required',
                 'password'=>'required',
                 'telefono'=> 'required|unique:users,telefono',
-                'password_confirmation' =>'required|same:password',               
+                'password_confirmation' =>'required|same:password', 
+                'role' => 'required'              
         ];
     }
 }

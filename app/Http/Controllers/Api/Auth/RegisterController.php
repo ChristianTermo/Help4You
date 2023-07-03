@@ -20,8 +20,8 @@ class RegisterController extends Controller
 {
     public function action(RegisterRequest $request, User $user)
     {
-        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);
+        /*$basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+        $client = new \Vonage\Client($basic);*/
 
         $user = User::create([
             'nome' => $request['nome'],
@@ -29,10 +29,12 @@ class RegisterController extends Controller
             'telefono' => Hash::make($request['telefono']),
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            'role' => 'Regular User'
         ]);
-        $user->assignRole('Regular User');
+       $user->assignRole('Regular User');
 
-        $otp = VerificationCode::create([
+      //  dd($user);
+       /* $otp = VerificationCode::create([
             'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
@@ -49,10 +51,47 @@ class RegisterController extends Controller
             echo "The message was sent successfully\n";
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
-        }
+        }*/
         return response()->json($user);
     }
 
+
+    public function registerProfessional(RegisterRequest $request, User $user)
+    {
+        /*$basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+        $client = new \Vonage\Client($basic);*/
+
+        $user = User::create([
+            'nome' => $request['nome'],
+            'cognome' => $request['cognome'],
+            'telefono' => Hash::make($request['telefono']),
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'role' => 'Professional'
+        ]);
+       $user->assignRole('Professional');
+
+      //  dd($user);
+       /* $otp = VerificationCode::create([
+            'telefono' => $request['telefono'],
+            'otp' => rand(10000, 99999),
+            'expire_at' => Carbon::now()->addMinutes(10)
+        ]);
+
+        $telefono = $request->input('telefono');
+        $response = $client->sms()->send(
+            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
+        );
+
+        $message = $response->current();
+
+        if ($message->getStatus() == 0) {
+            echo "The message was sent successfully\n";
+        } else {
+            echo "The message failed with status: " . $message->getStatus() . "\n";
+        }*/
+        return response()->json($user);
+    }
     public function validateOtp(Request $request)
     {
         $request->validate([

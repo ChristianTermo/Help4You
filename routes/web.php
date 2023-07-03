@@ -19,11 +19,11 @@ Route::get('/', function () {
 });
 route::get('getPanel', 'App\Http\Controllers\Api\AdminController@getPanel')->name('getPanel');
 route::get('login', 'App\Http\Controllers\Api\AdminController@getLogin')->name('login');
-Route::post('custom-login', [AdminController::class, 'customLogin'])->name('login.custom'); 
-Route::get('categorie', [AdminController::class, 'categories'])->name('categorie');
-Route::get('user', [AdminController::class, 'users'])->name('user');
+Route::post('custom-login', 'App\Http\Controllers\Api\AdminController@customLogin')->name('login.custom'); 
+Route::get('categorie', 'App\Http\Controllers\Api\AdminController@categories')->name('categorie');
+Route::get('user', 'App\Http\Controllers\Api\AdminController@users')->name('user');
 Route::resource('categories', CategoryController::class);
-Route::get('logoutadmin', [AdminController::class, 'logout'])->name('logoutadmin');
+Route::get('logoutadmin',  'App\Http\Controllers\Api\AdminController@logout')->name('logoutadmin');
 
 route::get('getCouponPage', 'App\Http\Controllers\Api\CouponController@getCouponPage')->name('getCouponPage');
 Route::post('generate/coupon', 'App\Http\Controllers\Api\CouponController@generate')->name('generate');
