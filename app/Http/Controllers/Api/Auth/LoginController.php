@@ -32,8 +32,9 @@ class LoginController extends Controller
         }
                
     //    return $token;
-       return response()->json(Auth::user());
-    }
+    return response()->json(['user' => Auth::user(),'token' => $token]);
+    // return response()->json(['user' => Auth::user(),'token' => $token]);
+}
 
     public function redirect()
     {
