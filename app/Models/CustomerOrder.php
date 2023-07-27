@@ -11,7 +11,12 @@ class CustomerOrder extends Model
 
     protected $fillable = [
         'order',
-        'user_id'
+        'description',
+        'category',
+        'budget_min',
+        'budget_max',
+        'user_id',
+        'attachments'
     ];
 
     public static function getId($id)

@@ -31,8 +31,8 @@ class LoginController extends Controller
             return response()->json('login fallito');
         }
         
-       return $token;
-       //return response()->json(Auth::user());
+       //return $token;
+       return response()->json(Auth::user());
     }
 
     public function redirect()
