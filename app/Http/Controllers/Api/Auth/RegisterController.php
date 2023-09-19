@@ -20,8 +20,8 @@ class RegisterController extends Controller
 {
     public function action(RegisterRequest $request, User $user)
     {
-        /*$basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);*/
+        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+        $client = new \Vonage\Client($basic);
 
         $user = User::create([
             'nome' => $request['nome'],
@@ -34,7 +34,7 @@ class RegisterController extends Controller
        $user->assignRole('Regular User');
 
       //  dd($user);
-       /* $otp = VerificationCode::create([
+        $otp = VerificationCode::create([
             'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
@@ -51,15 +51,15 @@ class RegisterController extends Controller
             echo "The message was sent successfully\n";
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
-        }*/
+        }
         return response()->json($user);
     }
 
 
     public function registerProfessional(RegisterRequest $request, User $user)
     {
-        /*$basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);*/
+        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+        $client = new \Vonage\Client($basic);
 
         $user = User::create([
             'nome' => $request['nome'],
@@ -72,7 +72,7 @@ class RegisterController extends Controller
        $user->assignRole('Professional');
 
       //  dd($user);
-       /* $otp = VerificationCode::create([
+        $otp = VerificationCode::create([
             'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
@@ -89,7 +89,7 @@ class RegisterController extends Controller
             echo "The message was sent successfully\n";
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
-        }*/
+        }
         return response()->json($user);
     }
     public function validateOtp(Request $request)
