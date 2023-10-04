@@ -39,7 +39,7 @@ class RoleAndPermissionSeeder extends Seeder
         $editCategories = Permission::create(['name' => 'editCategories']);
         $deleteCategories = Permission::create(['name' => 'deleteCategories']);
 
-        $professionalRole->givePermisssionTo([
+       /* $professionalRole->givePermisssionTo([
             'newService',
             'editService',
             'deleteService',
@@ -58,6 +58,6 @@ class RoleAndPermissionSeeder extends Seeder
             'createCategories',
             'editCategories',
             'deleteCategories',
-        ]);
+        ]);*/
     }
 }

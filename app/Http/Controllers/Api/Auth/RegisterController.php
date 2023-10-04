@@ -29,11 +29,12 @@ class RegisterController extends Controller
             'telefono' => Hash::make($request['telefono']),
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'role' => 'Regular User'
+            'role' => $request['role'],
+            'avatar' => $request['avatar']
         ]);
-       $user->assignRole('Regular User');
+        $user->assignRole('Regular User');
 
-      //  dd($user);
+        //  dd($user);
         $otp = VerificationCode::create([
             'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
@@ -69,9 +70,9 @@ class RegisterController extends Controller
             'password' => Hash::make($request['password']),
             'role' => 'Professional'
         ]);
-       $user->assignRole('Professional');
+        $user->assignRole('Professional');
 
-      //  dd($user);
+        //  dd($user);
         $otp = VerificationCode::create([
             'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),

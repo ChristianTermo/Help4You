@@ -30,7 +30,8 @@ class RegisterRequest extends FormRequest
                 'password'=>'required',
                 'telefono'=> 'required|unique:users,telefono',
                 'password_confirmation' =>'required|same:password', 
-                'role' => 'required'              
+                'role' => 'required',
+                'avatar' => 'required'          
         ];
     }
 }

@@ -14,11 +14,9 @@ use App\Http\Controllers\Api\CategoryController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 route::get('getPanel', 'App\Http\Controllers\Api\AdminController@getPanel')->name('getPanel');
-route::get('login', 'App\Http\Controllers\Api\AdminController@getLogin')->name('login');
+route::get('/', 'App\Http\Controllers\Api\AdminController@getLogin')->name('login');
 Route::post('custom-login', 'App\Http\Controllers\Api\AdminController@customLogin')->name('login.custom'); 
 Route::get('categorie', 'App\Http\Controllers\Api\AdminController@categories')->name('categorie');
 Route::get('user', 'App\Http\Controllers\Api\AdminController@users')->name('user');
