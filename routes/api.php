@@ -55,7 +55,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('stripePayment', 'App\Http\Controllers\Api\PaymentController@stripePayment');
     Route::post('paypalPayment', 'App\Http\Controllers\Api\PaymentController@postPaymentWithpaypal');
     Route::post('reverseTransactions/{id}', 'App\Http\Controllers\Api\PaymentController@reverseTransactions');
-    
+    Route::post('disable', 'App\Http\Controllers\Api\Auth\MeController@disableProfile');
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {
