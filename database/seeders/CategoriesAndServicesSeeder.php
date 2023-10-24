@@ -18,7 +18,7 @@ class CategoriesAndServicesSeeder extends Seeder
     public function run()
     {
 
-        /* 
+        
         
         $professionals = Category::create(['name' => 'Professionals']);
         $eventsAndParty = Category::create(['name' => 'EventsAndParty']);
@@ -91,7 +91,7 @@ class CategoriesAndServicesSeeder extends Seeder
         $italian = Category::create(['name' => 'italian',  'father_id' => '110']);
         $primary_subjects = Category::create(['name' => 'primary subjects',  'father_id' => '110']);
 
-      id 124  $art_music = Category::create(['name' => 'art & music',  'father_id' => '109']);*/
+     /* id 124*/  $art_music = Category::create(['name' => 'art & music',  'father_id' => '109']);
 
     }
 }

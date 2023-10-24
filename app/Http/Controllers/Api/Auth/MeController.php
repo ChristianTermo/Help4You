@@ -14,5 +14,7 @@ class MeController extends Controller
         $id = Auth::user()->id;
         $user = User::find($id);
         $user->disbled = true;
+
+        return $user;
     }
 }
