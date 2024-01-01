@@ -12,15 +12,25 @@ use Illuminate\Queue\SerializesModels;
 class SupportMail extends Mailable
 {
     use Queueable, SerializesModels;
-
+    protected $firstName = null;
+    protected $lastName = null;
+    protected $email = null;
+    protected $reason = null;
+    protected $description = null;
+    protected $attachments = null;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($firstName, $lastName, $email, $reason, $description, $attachments)
     {
-        //
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->email = $email;
+        $this->reason = $reason;
+        $this->description = $description;
+        $this->attachments = $attachments;
     }
 
     /**
