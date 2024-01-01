@@ -93,6 +93,7 @@ class ServicesController extends Controller
         ]);
 
         $to_user = CustomerOrder::find($id);
+        
 
         $proposal = Proposal::create([
             'price' => $request['price'],

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Events\Message;
 use App\Models\ChMessage;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -37,5 +38,14 @@ class ChatController extends Controller
        ->where('to_id' ,'=' ,$to_id);
 
        return $message;
+    }
+
+    public function averageResponseTime($userId)
+    {
+        $averageResponseTime = DB::table('messages')
+            ->where('user_id', $userId)
+            ->avg('response_time');
+
+        return $averageResponseTime;
     }
 }

@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use PayPal\Api\Refund as ApiRefund;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use PayPal\Auth\OAuthTokenCredential;
 use Illuminate\Support\Facades\Config;
 use PayPal\Api\Payment as PaypalPayment;
@@ -36,10 +37,16 @@ class PaymentController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
+        $customer = \Stripe\Customer::create([
+            'email' => Auth::user()->email,
+            'source' => $request->input('stripeToken'),
+        ]);
+
         $charge = Charge::create([
             "amount" => $request->amount * 10,
             "currency" => "eur",
             "source" => $request->stripeToken,
+            'customer' => $customer->id,
             "description" => $request->description,
         ]);
 

@@ -74,7 +74,6 @@ class CategoriesAndServicesSeeder extends Seeder
         $veterinarian = Category::create(['name' => 'veterinarian',  'father_id' => '105']);
         $petsitter = Category::create(['name' => 'petsitter',  'father_id' => '105']);
         $pets_toilette = Category::create(['name' => 'pets toilette',  'father_id' => '105']);
-
         $lessons = Category::create(['name' => 'Lessons']);
         $subjects = Category::create(['name' => 'subjects',  'father_id' => '109']);
         $math = Category::create(['name' => 'math',  'father_id' => '110']);

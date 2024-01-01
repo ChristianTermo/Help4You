@@ -29,6 +29,7 @@ Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generate
 Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@validateOtp');
 Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@resendOtp');
 Route::post('auth/forget/password', 'App\Http\Controllers\Api\Auth\ForgotPasswordController@submitForgetPasswordForm');
+Route::get('/average/response/time/{userId}', 'App\Http\Controllers\Api\ChatController@averageResponseTime');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');
