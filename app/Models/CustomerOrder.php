@@ -12,7 +12,7 @@ class CustomerOrder extends Model
     protected $fillable = [
         'order',
         'description',
-        'category',
+        'category_id',
         'budget_min',
         'budget_max',
         'user_id',

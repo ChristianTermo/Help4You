@@ -21,7 +21,7 @@ class CustomerOrderController extends Controller
         $request->validate([
             'order' => 'required',
             'description' => 'required',
-            'category' => 'required',
+            'category_id' => 'required',
             'scadenza' => 'required',
             'budget_min' => 'required',
             'budget_max' => 'required',
@@ -32,7 +32,7 @@ class CustomerOrderController extends Controller
             'order' => $request['order'],
             'user_id' => JWTAuth::user()->id,
             'description' => $request['description'],
-            'category' => $request['category'],
+            'category_id' => $request['category_id'],
             'scadenza' => $request['scadenza'],
             'budget_min' => $request['budget_min'],
             'budget_max' => $request['budget_max'],
@@ -46,7 +46,7 @@ class CustomerOrderController extends Controller
         $customerOrder = CustomerOrder::find($id);
         $customerOrder->order = request()->input('order');
         $customerOrder->description = request()->input('description');
-        $customerOrder->category = request()->input('category');
+        $customerOrder->category_id = request()->input('category_id');
         $customerOrder->scadenza =  request()->input('scadenza');
         $customerOrder->budget_min =   request()->input('budget_min');
         $customerOrder->budget_max =   request()->input('budget_max');
