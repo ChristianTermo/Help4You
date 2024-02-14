@@ -18,8 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
 Route::post('register/professional', 'App\Http\Controllers\Api\Auth\RegisterController@registerProfessional');
 Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
@@ -30,6 +28,7 @@ Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@vali
 Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@resendOtp');
 Route::post('auth/forget/password', 'App\Http\Controllers\Api\Auth\ForgotPasswordController@submitForgetPasswordForm');
 Route::get('/average/response/time/{userId}', 'App\Http\Controllers\Api\ChatController@averageResponseTime');
+Route::post('save/contacts', 'App\Http\Controllers\Api\Auth\MeController@saveContact');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');
@@ -52,11 +51,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     route::post('create/proposal/{id}', 'App\Http\Controllers\Api\ServicesController@makeProposal');
     Route::post('acceptProposal/{id}', 'App\Http\Controllers\Api\CustomerOrderController@acceptProposal');
     Route::post('message', 'App\Http\Controllers\Api\ChatController@message');
-    Route::get('retrieveMessages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages/{}');
+    Route::get('retrieveMessages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages');
     Route::post('stripePayment', 'App\Http\Controllers\Api\PaymentController@stripePayment');
     Route::post('paypalPayment', 'App\Http\Controllers\Api\PaymentController@postPaymentWithpaypal');
     Route::post('reverseTransactions/{id}', 'App\Http\Controllers\Api\PaymentController@reverseTransactions');
     Route::post('disable', 'App\Http\Controllers\Api\Auth\MeController@disableProfile');
+    Route::post('recommendation', 'App\Http\Controllers\Api\SocialEngineController@raccomandazioni');
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {

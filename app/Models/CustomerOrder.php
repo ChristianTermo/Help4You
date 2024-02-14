@@ -17,7 +17,7 @@ class CustomerOrder extends Model
         'budget_max',
         'user_id',
         'attachments',
-        'scadenza'
+        'scadenza',
     ];
 
     public static function getId($id)

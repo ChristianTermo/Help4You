@@ -11,10 +11,12 @@ use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Zorb\Promocodes\Traits\AppliesPromocode;
+use Overtrue\LaravelFollow\Traits\Followable;
+use Overtrue\LaravelFollow\Traits\Follower;
 
 class User extends Authenticatable  implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, AppliesPromocode;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, AppliesPromocode,Follower, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -54,7 +56,7 @@ class User extends Authenticatable  implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-/**
+    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
@@ -78,5 +80,14 @@ class User extends Authenticatable  implements JWTSubject
     {
         return $this->telefono;
     }
-    
+
+   /* public function phoneContacts()
+    {
+        return $this->hasMany(PhoneContact::class);
+    }
+
+    public function followings($type = null)
+    {
+        return $this->followingsQueryBuilder($type);
+    }*/
 }

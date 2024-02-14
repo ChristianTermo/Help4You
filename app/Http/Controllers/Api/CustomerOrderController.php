@@ -36,7 +36,7 @@ class CustomerOrderController extends Controller
             'scadenza' => $request['scadenza'],
             'budget_min' => $request['budget_min'],
             'budget_max' => $request['budget_max'],
-            'attachments' => $request['attachments']
+            'attachments' => $request['attachments'],
         ]);
         return response()->json($order);;
     }

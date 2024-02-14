@@ -185,6 +185,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
         Geocoder\Laravel\Providers\GeocoderService::class,
+        Overtrue\LaravelFollow\FollowServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -218,6 +219,7 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
         'Location' => Stevebauman\Location\Facades\Location::class,
+        'Follow' => Overtrue\LaravelFollow\Followable::class,
     ])->toArray(),
 
 ];

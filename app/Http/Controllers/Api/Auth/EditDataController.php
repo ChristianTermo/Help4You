@@ -50,11 +50,11 @@ class EditDataController extends Controller
         ]);
 
         $response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:'. "\n" . $otp->otp)
+            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . "\n" . $otp->otp)
         );
-        
+
         $message = $response->current();
-        
+
         if ($message->getStatus() == 0) {
             echo "The message was sent successfully\n";
         } else {
@@ -62,11 +62,12 @@ class EditDataController extends Controller
         }
 
         User::where('id', '=', Auth::user()->id)->update([
-            'telefono'=>Hash::make($request['telefono']),
+            'telefono' => Hash::make($request['telefono']),
         ]);
     }
 
-    public function resendOtp(Request $request){
+    public function resendOtp(Request $request)
+    {
         $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
         $client = new \Vonage\Client($basic);
 
@@ -78,11 +79,11 @@ class EditDataController extends Controller
         $telefono = $request->telefono;
 
         $response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:'. "\n" . $otp->otp)
+            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . "\n" . $otp->otp)
         );
-        
+
         $message = $response->current();
-        
+
         if ($message->getStatus() == 0) {
             echo "The message was sent successfully\n";
         } else {
@@ -90,7 +91,7 @@ class EditDataController extends Controller
         }
     }
 
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function updatePassword(Request $request)
@@ -108,31 +109,3 @@ class EditDataController extends Controller
         }
     }
 }
-
-
-
-
-
-
- /*   $text = new OTPNotification('',$otp->otp);
-        $response = $client->sms()->send(
-            new \Vonage\SMS\Message\SMS("3382496345" ,$user, 'Your verification code is' . $otp->otp)
-
-        );
-        
-        $message = $response->current();
-        
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
-        } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
-            }*/
-
-        // return $otp;
-        //  $message = Notification::route('', $user->telefono)->notify(new OTPNotification($user->telefono));
-        //  return  $message ;
-        //  Notification::send($user, new OTPNotification($otp->otp));
-        /* $notification = new OTPNotification($otp);
-        $message = $user->notify($notification);
-        return $message;*/
-        // $user->telefono = Hash::make(request()->input('telefono'));

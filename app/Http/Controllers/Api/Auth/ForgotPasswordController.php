@@ -17,7 +17,7 @@ class ForgotPasswordController extends Controller
             'email' => 'required|email|exists:users,email',
         ]);
 
-        $token = Str::random(64);
+        $token = Str::random(8);
 
 
         DB::table('password_resets')->insert([
@@ -26,7 +26,7 @@ class ForgotPasswordController extends Controller
             'created_at' => Carbon::now()
           ]);
 
-        Mail::to($request->email)->send(new TestMail);
+        Mail::to($request->email)->send(new TestMail($token));
 
         return 'We have e-mailed your password reset link!';
 }
