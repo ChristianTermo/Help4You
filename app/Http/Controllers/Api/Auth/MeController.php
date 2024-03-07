@@ -44,22 +44,34 @@ class MeController extends Controller
         return 'We have e-mailed!';
     }
 
-    public function saveContact(array $contactsData)
+    public function saveContact(Request $request)
     {
+        $contactsData = $request->json()->all();
+
+        if (!isset($contactsData) || !is_array($contactsData)) {
+            return response()->json(['error' => 'Dati dei contatti non validi'], 400);
+        }
+
         foreach ($contactsData as $contactData) {
+
             $phoneNumbers = $contactData['phoneNumbers'] ?? [];
 
             foreach ($phoneNumbers as $phoneNumberData) {
+
+                if (!isset($phoneNumberData['label']) || !isset($phoneNumberData['number'])) {
+                    return response()->json(['error' => 'Dati del numero di telefono non validi'], 400);
+                }
+
                 $phoneNumber = new Contact([
                     'label' => $phoneNumberData['label'],
                     'number' => $phoneNumberData['number'],
                     'user_id' => Auth::user()->id
                 ]);
-                
+
                 $phoneNumber->save();
             }
         }
 
-        return response()->json(['message' => 'Phone numbers saved successfully'], 201);
+        return response()->json(['message' => 'Contatti salvati con successo'], 200);
     }
 }

@@ -29,6 +29,7 @@ Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@rese
 Route::post('auth/forget/password', 'App\Http\Controllers\Api\Auth\ForgotPasswordController@submitForgetPasswordForm');
 Route::get('/average/response/time/{userId}', 'App\Http\Controllers\Api\ChatController@averageResponseTime');
 Route::post('save/contacts', 'App\Http\Controllers\Api\Auth\MeController@saveContact');
+Route::post('/support', 'App\Http\Controllers\Api\Auth\MeController@submitSupportForm');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');

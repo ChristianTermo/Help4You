@@ -81,6 +81,12 @@ class User extends Authenticatable  implements JWTSubject
         return $this->telefono;
     }
 
+    public function contacts()
+    {
+        return $this->hasMany(Contact::class);
+    }
+
+
    /* public function phoneContacts()
     {
         return $this->hasMany(PhoneContact::class);

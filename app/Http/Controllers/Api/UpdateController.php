@@ -19,24 +19,28 @@ class UpdateController extends Controller
 
     public function updateToProfessional(Request $request)
     {
-       $request->validate([
+        $request->validate([
             'name' => ['required', 'string', 'max:255', 'exists:categories'],
         ]);
 
-        $category=request()->input('name');
+        $category = request()->input('name');
 
         $user = User::find(JWTAuth::user()->id);
         $user->removeRole('Regular User');
         $user->assignRole('Professional');
 
+        $user->role = 'Professional';
+        
+        $user->save();
+
         DB::table('users_categories')->insert(
             [
-               'user_id' => Auth::id(),
-               'category_id' => DB::table('categories')->where('name',  '=' , $category)->value('id'),
+                'user_id' => Auth::id(),
+                'category_id' => DB::table('categories')->where('name',  '=', $category)->value('id'),
             ]
-            );
+        );
 
-            return response()->json($user);
+        return response()->json($user);
     }
 
 
@@ -48,6 +52,10 @@ class UpdateController extends Controller
         $user = User::find(Auth::user()->id);
         $user->removeRole('Professional');
         $user->assignRole('Regular User');
+
+        $user->role = 'Regular User';
+
+        $user->save();
 
         return response()->json($user);
     }
