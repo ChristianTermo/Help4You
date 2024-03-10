@@ -22,8 +22,6 @@ class CreateMessagesTable extends Migration
             $table->string('attachment')->nullable();
             $table->boolean('seen')->default(false);
             $table->timestamps();
-
-            $table->primary('id');
         });
     }
 

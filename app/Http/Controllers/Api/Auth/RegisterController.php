@@ -15,6 +15,7 @@ use App\Models\VerificationCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class RegisterController extends Controller
 {
@@ -27,7 +28,7 @@ class RegisterController extends Controller
             'nome' => $request['nome'],
             'cognome' => $request['cognome'],
             'telefono' => Hash::make($request['telefono']),
-            'email' => $request['email'],
+           // 'email' => $request['email'],
             'password' => Hash::make($request['password']),
             'role' => $request['role'],
             'avatar' => $request['avatar']
@@ -53,6 +54,7 @@ class RegisterController extends Controller
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
         }
+        
         return response()->json($user);
     }
 

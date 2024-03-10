@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class UpdateController extends Controller
 {
@@ -39,6 +40,29 @@ class UpdateController extends Controller
                 'category_id' => DB::table('categories')->where('name',  '=', $category)->value('id'),
             ]
         );
+
+        $url = 'http://doorkeeper.phoney.io:4000/u'; 
+        $data = [
+            'id' => 'value1',
+            'latitude' => 'value2',
+            'latitude' => 'value2',
+            'longitude' => 'value2',
+            'services' => 'value2',
+            'contacts' => 'value2',
+        ];
+
+        $response = Http::post($url, $data);
+
+        if ($response->successful()) {
+
+            $responseData = $response->json();
+            return response()->json($responseData);
+        } else {
+            $errorCode = $response->status();
+            $errorMessage = $response->body();
+
+            echo 'error' . $errorMessage . "" . $errorCode;
+        }
 
         return response()->json($user);
     }
