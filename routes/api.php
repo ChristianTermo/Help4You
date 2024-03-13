@@ -30,6 +30,8 @@ Route::post('auth/forget/password', 'App\Http\Controllers\Api\Auth\ForgotPasswor
 Route::get('/average/response/time/{userId}', 'App\Http\Controllers\Api\ChatController@averageResponseTime');
 Route::post('save/contacts', 'App\Http\Controllers\Api\Auth\MeController@saveContact');
 Route::post('/support', 'App\Http\Controllers\Api\Auth\MeController@submitSupportForm');
+Route::get('recommendation', 'App\Http\Controllers\Api\SocialEngineController@raccomandazioni');
+route::get('getCategories', 'App\Http\Controllers\Api\CategoryController@getCategories');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');
@@ -41,7 +43,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('update/order/{id}', 'App\Http\Controllers\Api\CustomerOrderController@update');
     Route::post('delete/order/{id}', 'App\Http\Controllers\Api\CustomerOrderController@delete');
     route::get('getOrders', 'App\Http\Controllers\Api\CustomerOrderController@getOrders');
-    route::get('getCategories', 'App\Http\Controllers\Api\CategoryController@getCategories');
     route::get('getFeedback', 'App\Http\Controllers\Api\FeedbackController@getFeedback');
     Route::post('submitFeedback/{id}', 'App\Http\Controllers\Api\FeedbackController@submitFeedback');
     route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');
@@ -57,7 +58,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('paypalPayment', 'App\Http\Controllers\Api\PaymentController@postPaymentWithpaypal');
     Route::post('reverseTransactions/{id}', 'App\Http\Controllers\Api\PaymentController@reverseTransactions');
     Route::post('disable', 'App\Http\Controllers\Api\Auth\MeController@disableProfile');
-    Route::post('recommendation', 'App\Http\Controllers\Api\SocialEngineController@raccomandazioni');
 });
 
 Route::prefix('facebook')->name('facebook.')->group(function () {

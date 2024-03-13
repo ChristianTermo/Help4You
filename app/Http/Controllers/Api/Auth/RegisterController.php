@@ -25,13 +25,13 @@ class RegisterController extends Controller
         $client = new \Vonage\Client($basic);
 
         $user = User::create([
-            'nome' => $request['nome'],
-            'cognome' => $request['cognome'],
+           // 'nome' => $request['nome'],
+            //'cognome' => $request['cognome'],
             'telefono' => Hash::make($request['telefono']),
            // 'email' => $request['email'],
-            'password' => Hash::make($request['password']),
+            //'password' => Hash::make($request['password']),
             'role' => $request['role'],
-            'avatar' => $request['avatar']
+          //  'avatar' => $request['avatar']
         ]);
         $user->assignRole('Regular User');
 
@@ -65,12 +65,13 @@ class RegisterController extends Controller
         $client = new \Vonage\Client($basic);
 
         $user = User::create([
-            'nome' => $request['nome'],
-            'cognome' => $request['cognome'],
+// 'nome' => $request['nome'],
+            //'cognome' => $request['cognome'],
             'telefono' => Hash::make($request['telefono']),
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
-            'role' => 'Professional'
+           // 'email' => $request['email'],
+            //'password' => Hash::make($request['password']),
+            'role' => $request['role'],
+          //  'avatar' => $request['avatar']
         ]);
         $user->assignRole('Professional');
 
@@ -95,6 +96,7 @@ class RegisterController extends Controller
         }
         return response()->json($user);
     }
+
     public function validateOtp(Request $request)
     {
         $request->validate([

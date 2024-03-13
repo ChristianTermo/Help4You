@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Hash;
 
 class MeController extends Controller
 {
@@ -73,5 +74,40 @@ class MeController extends Controller
         }
 
         return response()->json(['message' => 'Contatti salvati con successo'], 200);
+    }
+
+    function updateUserData(Request $request, $phoneNumber)
+    {
+        $user = User::findOrFail($phoneNumber);
+
+        // Validazione dei dati inviati
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'cognome' => 'required|string|max:255',
+            'avatar' => 'nullable|image|max:2048', // Immagine con dimensione massima di 2MB
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id, // L'email deve essere unica, escludendo l'email dell'utente attuale
+            'password' => 'nullable|string|min:8|confirmed', // La password deve avere almeno 8 caratteri e corrispondere al campo di conferma
+        ]);
+
+        // Aggiornamento dei campi
+        $user->nome = $request->input('nome');
+        $user->cognome = $request->input('cognome');
+        $user->email = $request->input('email');
+
+        // Aggiornamento dell'avatar se è stato fornito
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarPath = $avatar->store('avatars', 'public'); // Memorizza l'avatar nella cartella 'public/avatars'
+            $user->avatar = $avatarPath;
+        }
+
+        // Aggiornamento della password se è stata fornita
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->save(); // Salva le modifiche
+
+        return response()->json(['message' => 'Dati utente aggiornati con successo']);
     }
 }
