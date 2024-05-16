@@ -14,8 +14,12 @@ class Service extends Model
         'description',
         'category',
         'price',
-        'user_id',
         'coverage_range',
         'starting_point',
     ];
+
+    public function courses()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

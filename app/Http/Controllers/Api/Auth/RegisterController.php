@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class RegisterController extends Controller
 {
@@ -25,13 +26,13 @@ class RegisterController extends Controller
         $client = new \Vonage\Client($basic);
 
         $user = User::create([
-           // 'nome' => $request['nome'],
+            // 'nome' => $request['nome'],
             //'cognome' => $request['cognome'],
             'telefono' => Hash::make($request['telefono']),
-           // 'email' => $request['email'],
+            // 'email' => $request['email'],
             //'password' => Hash::make($request['password']),
             'role' => $request['role'],
-          //  'avatar' => $request['avatar']
+            //  'avatar' => $request['avatar']
         ]);
         $user->assignRole('Regular User');
 
@@ -42,8 +43,8 @@ class RegisterController extends Controller
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
 
-        $telefono = $request->input('telefono');
-        $response = $client->sms()->send(
+         $telefono = $request->input('telefono');
+        /*$response = $client->sms()->send(
             new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
         );
 
@@ -53,48 +54,104 @@ class RegisterController extends Controller
             echo "The message was sent successfully\n";
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
+        }*/
+    
+        $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+            'op' => 'sendSMS2',
+            'smpp_id' => 'christiantermo40@gmail.com',
+            'utenti_password' => 'termo',
+            'tipologie_sms_id' => '6',
+            'destinatari_destination_addr' => $telefono,
+            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
+            'trasmissioni_mittente' => ''
+        ]);
+
+        $url = 'http://doorkeeper.phoney.io:4000/u';
+        $data = [
+            'id' => 'value1',
+            'latitude' => 'value2',
+            'longitude' => 'value2',
+            'services' => 'value2',
+            'contacts' => 'value2',
+        ];
+
+        $response = Http::post($url, $data);
+
+        if ($response->successful()) {
+
+            $responseData = $response->json();
+            return response()->json($responseData);
+        } else {
+            $errorCode = $response->status();
+            $errorMessage = $response->body();
+
+            echo 'error ' . $errorMessage . "" . $errorCode;
         }
-        
+
         return response()->json($user);
     }
 
 
     public function registerProfessional(RegisterRequest $request, User $user)
     {
-        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);
+        // Verifica se l'utente esiste già
+        $existingUser = User::where('telefono', $request['telefono'])->first();
 
-        $user = User::create([
-// 'nome' => $request['nome'],
-            //'cognome' => $request['cognome'],
-            'telefono' => Hash::make($request['telefono']),
-           // 'email' => $request['email'],
-            //'password' => Hash::make($request['password']),
-            'role' => $request['role'],
-          //  'avatar' => $request['avatar']
-        ]);
-        $user->assignRole('Professional');
+        if ($existingUser) {
+            // Se l'utente esiste già, invia direttamente l'OTP
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
 
-        //  dd($user);
-        $otp = VerificationCode::create([
-            'telefono' => $request['telefono'],
-            'otp' => rand(10000, 99999),
-            'expire_at' => Carbon::now()->addMinutes(10)
-        ]);
+            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+            $client = new \Vonage\Client($basic);
 
-        $telefono = $request->input('telefono');
-        $response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
-        );
+            $response = $client->sms()->send(
+                new SMS($request['telefono'], 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
+            );
 
-        $message = $response->current();
+            $message = $response->current();
 
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
+            if ($message->getStatus() == 0) {
+                echo "The message was sent successfully\n";
+            } else {
+                echo "The message failed with status: " . $message->getStatus() . "\n";
+            }
+
+            return response()->json($existingUser);
         } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
+            // Se l'utente non esiste, crea un nuovo utente
+            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+            $client = new \Vonage\Client($basic);
+
+            $user = User::create([
+                'telefono' => Hash::make($request['telefono']),
+                'role' => $request['role'],
+            ]);
+            $user->assignRole('Professional');
+
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
+
+            $response = $client->sms()->send(
+                new SMS($request['telefono'], 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
+            );
+
+            $message = $response->current();
+
+            if ($message->getStatus() == 0) {
+                echo "The message was sent successfully\n";
+            } else {
+                echo "The message failed with status: " . $message->getStatus() . "\n";
+            }
+
+            return response()->json($user);
         }
-        return response()->json($user);
     }
 
     public function validateOtp(Request $request)

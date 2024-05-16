@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('customer_orders', function (Blueprint $table) {
             $table->string('description');
             $table->unsignedBigInteger('category_id');
-            $table->date('scadenza');
+            $table->date('expiration');
             $table->double('budget_min');
             $table->double('budget_max');
             $table->string("attachments");

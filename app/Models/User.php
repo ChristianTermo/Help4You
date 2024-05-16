@@ -16,7 +16,7 @@ use Overtrue\LaravelFollow\Traits\Follower;
 
 class User extends Authenticatable  implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, AppliesPromocode,Follower, Followable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, TwoFactorAuthenticatable, AppliesPromocode, Follower, Followable;
 
     /**
      * The attributes that are mass assignable.
@@ -86,14 +86,13 @@ class User extends Authenticatable  implements JWTSubject
         return $this->hasMany(Contact::class);
     }
 
-
-   /* public function phoneContacts()
+    public function Services()
     {
-        return $this->hasMany(PhoneContact::class);
+        return $this->belongsToMany(Service::class);
     }
 
-    public function followings($type = null)
+    public function Categories()
     {
-        return $this->followingsQueryBuilder($type);
-    }*/
+        return $this->belongsToMany(Category::class);
+    }
 }
