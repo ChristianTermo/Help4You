@@ -32,6 +32,7 @@ Route::post('save/contacts', 'App\Http\Controllers\Api\Auth\MeController@saveCon
 Route::post('support', 'App\Http\Controllers\Api\Auth\MeController@submitSupportForm');
 Route::post('update/user', 'App\Http\Controllers\Api\Auth\MeController@updateUserData');
 Route::get('recommendation', 'App\Http\Controllers\Api\SocialEngineController@raccomandazioni');
+Route::post('register', 'App\Http\Controllers\Api\SocialEngineController@register');
 route::get('get/categories', 'App\Http\Controllers\Api\CategoryController@getCategories');
 
 Route::group(['middleware' => 'jwt.auth'], function () {

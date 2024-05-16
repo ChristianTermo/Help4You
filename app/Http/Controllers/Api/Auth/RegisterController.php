@@ -43,7 +43,7 @@ class RegisterController extends Controller
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
 
-         $telefono = $request->input('telefono');
+        $telefono = $request->input('telefono');
         /*$response = $client->sms()->send(
             new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
         );
@@ -55,7 +55,7 @@ class RegisterController extends Controller
         } else {
             echo "The message failed with status: " . $message->getStatus() . "\n";
         }*/
-    
+
         $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
             'op' => 'sendSMS2',
             'smpp_id' => 'christiantermo40@gmail.com',
@@ -65,28 +65,6 @@ class RegisterController extends Controller
             'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
             'trasmissioni_mittente' => ''
         ]);
-
-        $url = 'http://doorkeeper.phoney.io:4000/u';
-        $data = [
-            'id' => 'value1',
-            'latitude' => 'value2',
-            'longitude' => 'value2',
-            'services' => 'value2',
-            'contacts' => 'value2',
-        ];
-
-        $response = Http::post($url, $data);
-
-        if ($response->successful()) {
-
-            $responseData = $response->json();
-            return response()->json($responseData);
-        } else {
-            $errorCode = $response->status();
-            $errorMessage = $response->body();
-
-            echo 'error ' . $errorMessage . "" . $errorCode;
-        }
 
         return response()->json($user);
     }

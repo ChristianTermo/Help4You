@@ -39,4 +39,43 @@ class SocialEngineController extends Controller
             return response()->json(['error' => $errorMessage], $errorCode);
         }
     }
+
+    function register($user, $latitude, $longitude, $services = null, $contacts = null, $reach = null) {  {
+        $url = 'http://doorkeeper.phoney.io:4000/u';
+        $data = [
+            'id' => $user->id,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ];
+        
+        // Aggiungi 'services' solo se è presente
+        if ($services !== null) {
+            $data['services'] = $services;
+        }
+    
+        // Aggiungi 'contacts' solo se è presente
+        if ($contacts !== null) {
+            $data['contacts'] = $contacts;
+        }
+    
+        // Aggiungi 'reach' solo se è presente
+        if ($reach !== null) {
+            $data['reach'] = $reach;
+        }
+
+        $response = Http::post($url, $data);
+
+        if ($response->successful()) {
+
+            $responseData = $response->json();
+            return response()->json($responseData);
+        } else {
+            $errorCode = $response->status();
+            $errorMessage = $response->body();
+
+            echo 'error ' . $errorMessage . "" . $errorCode;
+        }
+
+    }
+}
 }
