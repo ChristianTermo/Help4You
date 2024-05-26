@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('auth/register', 'App\Http\Controllers\Api\Auth\RegisterController@action');
 Route::post('register/professional', 'App\Http\Controllers\Api\Auth\RegisterController@registerProfessional');
 Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
-Route::post('apple/login', 'api\Auth\AppleLoginController@login');
+//Route::post('apple/login', 'api\Auth\AppleLoginController@login');
 route::post('auth/logout', 'App\Http\Controllers\Api\Auth\LogoutController');
 Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generateCode');
 Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@validateOtp');
