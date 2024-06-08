@@ -32,7 +32,7 @@ class RegisterController extends Controller
                 'expire_at' => Carbon::now()->addMinutes(10)
             ]);
 
-            return response()->json($existingUser);
+            return response()->json("L'Utente è già registrato");
         } else {
             $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
             $client = new \Vonage\Client($basic);

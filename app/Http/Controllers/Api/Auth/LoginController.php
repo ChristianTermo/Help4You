@@ -17,23 +17,29 @@ use Laravel\Socialite\Facades\Socialite;
 class LoginController extends Controller
 {
     use PassportToken;
-
+    
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only('telefono');
-        try {
-            if (!$token = Auth::attempt($credentials)) {
-                return response()->json('credenziali errate');
-                //  $errorrMSG=Lang::get('auth.credential_incorrect');
-                // return CustomResponse::setFailResponse($errorrMSG, Response::HTTP_NOT_ACCEPTABLE, []);
-            }
-        } catch (JWTException $e) {
-            return response()->json('login fallito');
+        // Estrai il numero di telefono dalla richiesta
+        $telefono = $request->input('telefono');
+    
+        // Trova l'utente utilizzando il numero di telefono
+        $user = User::where('telefono', $telefono)->first();
+    
+        // Verifica se l'utente esiste e se il campo telefono è stato trovato
+        if (!$user) {
+            return response()->json('Numero di telefono non valido', 404);
         }
-        
-      // return $token;
-       //return response()->json(Auth::user());
-       return response()->json(['user' => Auth::user(),'token' => $token]);
+    
+        // Genera un token JWT per l'utente
+        $token = Auth::login($user);
+    
+        if (!$token) {
+            return response()->json('Autenticazione fallita', 401);
+        }
+    
+        // Restituisci l'utente e il token JWT come risposta
+        return response()->json(['user' => $user, 'token' => $token]);
     }
 
     public function redirect()
