@@ -22,29 +22,41 @@ class RegisterController extends Controller
 {
     public function action(RegisterRequest $request, User $user)
     {
-        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);
+        $existingUser = User::where('telefono', $request['telefono'])->first();
 
-        $user = User::create([
-            // 'nome' => $request['nome'],
-            //'cognome' => $request['cognome'],
-            'telefono' => Hash::make($request['telefono']),
-            // 'email' => $request['email'],
-            //'password' => Hash::make($request['password']),
-            'role' => $request['role'],
-            //  'avatar' => $request['avatar']
-        ]);
-        $user->assignRole('Regular User');
+        if ($existingUser) {
+            // Se l'utente esiste già, invia direttamente l'OTP
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
 
-        //  dd($user);
-        $otp = VerificationCode::create([
-            'telefono' => $request['telefono'],
-            'otp' => rand(10000, 99999),
-            'expire_at' => Carbon::now()->addMinutes(10)
-        ]);
+            return response()->json($existingUser);
+        } else {
+            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+            $client = new \Vonage\Client($basic);
 
-        $telefono = $request->input('telefono');
-        /*$response = $client->sms()->send(
+            $user = User::create([
+                // 'nome' => $request['nome'],
+                //'cognome' => $request['cognome'],
+                'telefono' => $request['telefono'],
+                // 'email' => $request['email'],
+                //'password' => Hash::make($request['password']),
+                'role' => $request['role'],
+                //  'avatar' => $request['avatar']
+            ]);
+            $user->assignRole('Regular User');
+
+            //  dd($user);
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
+
+            $telefono = $request->input('telefono');
+            /*$response = $client->sms()->send(
             new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
         );
 
@@ -56,15 +68,16 @@ class RegisterController extends Controller
             echo "The message failed with status: " . $message->getStatus() . "\n";
         }*/
 
-        $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
-            'op' => 'sendSMS2',
-            'smpp_id' => 'christiantermo40@gmail.com',
-            'utenti_password' => 'termo',
-            'tipologie_sms_id' => '6',
-            'destinatari_destination_addr' => $telefono,
-            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
-            'trasmissioni_mittente' => ''
-        ]);
+            $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+                'op' => 'sendSMS2',
+                'smpp_id' => 'christiantermo40@gmail.com',
+                'utenti_password' => 'termo',
+                'tipologie_sms_id' => '6',
+                'destinatari_destination_addr' => $telefono,
+                'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
+                'trasmissioni_mittente' => ''
+            ]);
+        }
 
         return response()->json($user);
     }
