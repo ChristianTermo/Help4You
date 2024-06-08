@@ -20,7 +20,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email',  'password');
+        $credentials = $request->only('telefono');
         try {
             if (!$token = Auth::attempt($credentials)) {
                 return response()->json('credenziali errate');
