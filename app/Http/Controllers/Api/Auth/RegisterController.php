@@ -21,6 +21,53 @@ use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
+
+    public function register(RegisterRequest $request, User $user)
+    {
+        $user = User::where('telefono', $request['telefono'])->first();
+
+        if ($user) {
+            // Se l'utente esiste già, invia direttamente l'OTP
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
+            $telefono = $user->telefono;
+
+            return response()->json("utente già registrato");
+        } else {
+            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
+            $client = new \Vonage\Client($basic);
+
+            $user = User::create([
+                'telefono' => $request['telefono'],
+                'role' => 'Regular User',
+            ]);
+            $user->assignRole('Regular User');
+
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
+
+            $telefono = $request->input('telefono');
+        }
+        $message = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+            'op' => 'sendSMS2',
+            'smpp_id' => 'christiantermo40@gmail.com',
+            'utenti_password' => 'termo',
+            'tipologie_sms_id' => '6',
+            'destinatari_destination_addr' => $telefono,
+            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
+            'trasmissioni_mittente' => ''
+        ]);
+
+
+
+        return response()->json($user);
+    }
     public function action(RegisterRequest $request)
     {
         $telefono = $request['telefono'];

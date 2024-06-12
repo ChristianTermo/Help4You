@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('authenticate', 'App\Http\Controllers\Api\Auth\RegisterController@action');
+Route::post('register', 'App\Http\Controllers\Api\Auth\RegisterController@register');
 Route::post('register/professional', 'App\Http\Controllers\Api\Auth\RegisterController@registerProfessional');
 //Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
 //Route::post('apple/login', 'api\Auth\AppleLoginController@login');
