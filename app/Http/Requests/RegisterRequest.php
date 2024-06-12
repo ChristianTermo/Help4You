@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
     {
         return [
                 'telefono'=> 'required|unique:users,telefono',
-                'role' => 'required',         
+             //   'role' => 'required',         
         ];
     }
 }

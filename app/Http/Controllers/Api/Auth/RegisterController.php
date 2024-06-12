@@ -22,33 +22,27 @@ class RegisterController extends Controller
 {
     public function action(RegisterRequest $request, User $user)
     {
-        $existingUser = User::where('telefono', $request['telefono'])->first();
+        $user = User::where('telefono', $request['telefono'])->first();
 
-        if ($existingUser) {
+        if ($user) {
             // Se l'utente esiste già, invia direttamente l'OTP
             $otp = VerificationCode::create([
                 'telefono' => $request['telefono'],
                 'otp' => rand(10000, 99999),
                 'expire_at' => Carbon::now()->addMinutes(10)
             ]);
-
+            $telefono = $user->telefono;
             return response()->json("L'Utente è già registrato");
         } else {
             $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
             $client = new \Vonage\Client($basic);
 
             $user = User::create([
-                // 'nome' => $request['nome'],
-                //'cognome' => $request['cognome'],
                 'telefono' => $request['telefono'],
-                // 'email' => $request['email'],
-                //'password' => Hash::make($request['password']),
-                'role' => $request['role'],
-                //  'avatar' => $request['avatar']
+                'role' => 'Regular User',
             ]);
             $user->assignRole('Regular User');
 
-            //  dd($user);
             $otp = VerificationCode::create([
                 'telefono' => $request['telefono'],
                 'otp' => rand(10000, 99999),
@@ -56,28 +50,16 @@ class RegisterController extends Controller
             ]);
 
             $telefono = $request->input('telefono');
-            /*$response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . $otp->otp)
-        );
-
-        $message = $response->current();
-
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
-        } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
-        }*/
-
-            $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
-                'op' => 'sendSMS2',
-                'smpp_id' => 'christiantermo40@gmail.com',
-                'utenti_password' => 'termo',
-                'tipologie_sms_id' => '6',
-                'destinatari_destination_addr' => $telefono,
-                'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
-                'trasmissioni_mittente' => ''
-            ]);
         }
+        $message = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+            'op' => 'sendSMS2',
+            'smpp_id' => 'christiantermo40@gmail.com',
+            'utenti_password' => 'termo',
+            'tipologie_sms_id' => '6',
+            'destinatari_destination_addr' => $telefono,
+            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
+            'trasmissioni_mittente' => ''
+        ]);
 
         return response()->json($user);
     }
