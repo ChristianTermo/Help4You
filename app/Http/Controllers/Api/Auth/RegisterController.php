@@ -27,7 +27,11 @@ class RegisterController extends Controller
     
         if ($user) {
             // Se l'utente esiste già, invia direttamente l'OTP
-            $otp = $this->generateOtp($telefono);
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
     
             // Genera il token per l'utente esistente
             $token = Auth::login($user);
@@ -40,7 +44,11 @@ class RegisterController extends Controller
             $user->assignRole('Regular User');
     
             // Genera OTP per il nuovo utente
-            $otp = $this->generateOtp($telefono);
+            $otp = VerificationCode::create([
+                'telefono' => $request['telefono'],
+                'otp' => rand(10000, 99999),
+                'expire_at' => Carbon::now()->addMinutes(10)
+            ]);
     
             // Genera il token per il nuovo utente
             $token = Auth::login($user);
