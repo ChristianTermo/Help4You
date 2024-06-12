@@ -20,37 +20,33 @@ use PhpParser\Node\Expr\Cast\Object_;
 
 class RegisterController extends Controller
 {
-    public function action(RegisterRequest $request, User $user)
+    public function action(RegisterRequest $request)
     {
         $user = User::where('telefono', $request['telefono'])->first();
-
+        $telefono = $request['telefono'];
+    
         if ($user) {
             // Se l'utente esiste già, invia direttamente l'OTP
-            $otp = VerificationCode::create([
-                'telefono' => $request['telefono'],
-                'otp' => rand(10000, 99999),
-                'expire_at' => Carbon::now()->addMinutes(10)
-            ]);
-            $telefono = $user->telefono;
-            return response()->json("L'Utente è già registrato");
+            $otp = $this->generateOtp($telefono);
+    
+            // Genera il token per l'utente esistente
+            $token = Auth::login($user);
         } else {
-            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-            $client = new \Vonage\Client($basic);
-
+            // Crea un nuovo utente
             $user = User::create([
-                'telefono' => $request['telefono'],
+                'telefono' => $telefono,
                 'role' => 'Regular User',
             ]);
             $user->assignRole('Regular User');
-
-            $otp = VerificationCode::create([
-                'telefono' => $request['telefono'],
-                'otp' => rand(10000, 99999),
-                'expire_at' => Carbon::now()->addMinutes(10)
-            ]);
-
-            $telefono = $request->input('telefono');
+    
+            // Genera OTP per il nuovo utente
+            $otp = $this->generateOtp($telefono);
+    
+            // Genera il token per il nuovo utente
+            $token = Auth::login($user);
         }
+    
+        // Invia il messaggio SMS
         $message = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
             'op' => 'sendSMS2',
             'smpp_id' => 'christiantermo40@gmail.com',
@@ -60,8 +56,13 @@ class RegisterController extends Controller
             'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
             'trasmissioni_mittente' => ''
         ]);
-
-        return response()->json($user);
+    
+        // Restituisce la risposta JSON con l'utente e il token
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+            'message' => $message->body()
+        ]);
     }
 
 
