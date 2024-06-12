@@ -114,7 +114,7 @@ class RegisterController extends Controller
             ]);
 
             if ($response->successful()) {
-                return $response->body();
+                
             } else {
                 throw new \Exception('Errore durante l\'invio del messaggio SMS.');
             }
