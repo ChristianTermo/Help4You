@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-                'telefono'=> 'required|unique:users,telefono',
+                'telefono'=> 'required',
              //   'role' => 'required',         
         ];
     }
