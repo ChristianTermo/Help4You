@@ -76,7 +76,11 @@ class RegisterController extends Controller
         try {
             if ($user) {
                 // Se l'utente esiste già, invia direttamente l'OTP
-                $otp = $this->generateOtp($telefono);
+                $otp = VerificationCode::create([
+                    'telefono' => $request['telefono'],
+                    'otp' => rand(10000, 99999),
+                    'expire_at' => Carbon::now()->addMinutes(10)
+                ]);
 
                 // Genera il token per l'utente esistente
                 $token = Auth::login($user);
@@ -88,21 +92,37 @@ class RegisterController extends Controller
                 ]);
                 $user->assignRole('Regular User');
 
-                // Genera OTP per il nuovo utente
-                $otp = $this->generateOtp($telefono);
+                $otp = VerificationCode::create([
+                    'telefono' => $request['telefono'],
+                    'otp' => rand(10000, 99999),
+                    'expire_at' => Carbon::now()->addMinutes(10)
+                ]);
 
                 // Genera il token per il nuovo utente
                 $token = Auth::login($user);
             }
 
             // Invia il messaggio SMS
-            $message = $this->sendSms($telefono, $otp->otp);
+            $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+                'op' => 'sendSMS2',
+                'smpp_id' => env('SMPP_ID'),
+                'utenti_password' => env('SMPP_PASSWORD'),
+                'tipologie_sms_id' => '6',
+                'destinatari_destination_addr' => $telefono,
+                'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp,
+                'trasmissioni_mittente' => ''
+            ]);
+
+            if ($response->successful()) {
+                return $response->body();
+            } else {
+                throw new \Exception('Errore durante l\'invio del messaggio SMS.');
+            }
 
             // Restituisce la risposta JSON con l'utente e il token
             return response()->json([
                 'user' => $user,
-                'token' => $token,
-                'message' => $message
+                'token' => $token
             ]);
         } catch (\Exception $e) {
             // Log dell'errore
