@@ -70,7 +70,7 @@ class RegisterController extends Controller
     }
     public function action(RegisterRequest $request)
     {
-        $telefono = $request['telefono'];
+        $telefono = $request->input('telefono');;
         $user = User::where('telefono', $telefono)->first();
 
         try {
