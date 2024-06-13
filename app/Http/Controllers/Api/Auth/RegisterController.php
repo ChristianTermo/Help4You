@@ -66,7 +66,7 @@ class RegisterController extends Controller
 
 
 
-        return response()->json($user);
+        return response()->json($user, $message);
     }
     public function action(RegisterRequest $request)
     {
@@ -122,7 +122,8 @@ class RegisterController extends Controller
             // Restituisce la risposta JSON con l'utente e il token
             return response()->json([
                 'user' => $user,
-                'token' => $token
+                'token' => $token,
+                'response' => $response
             ]);
         } catch (\Exception $e) {
             // Log dell'errore
