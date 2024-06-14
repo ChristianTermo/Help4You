@@ -66,7 +66,7 @@ class RegisterController extends Controller
 
 
 
-        return response()->json($user, $message);
+        return response()->json($user);
     }
     public function action(RegisterRequest $request)
     {
@@ -85,6 +85,7 @@ class RegisterController extends Controller
                 // Genera il token per l'utente esistente
                 $token = Auth::login($user);
             } else {
+                
                 // Crea un nuovo utente
                 $user = User::create([
                     'telefono' => $telefono,
