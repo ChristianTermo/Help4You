@@ -37,9 +37,6 @@ class RegisterController extends Controller
             $token = Auth::login($user);
           //  return response()->json("utente già registrato");
         } else {
-            $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-            $client = new \Vonage\Client($basic);
-
             $user = User::create([
                 'telefono' => $request['telefono'],
                 'role' => 'Regular User',
@@ -71,7 +68,7 @@ class RegisterController extends Controller
         'token' => $token
     ]);
     }
-    public function action(RegisterRequest $request)
+ /*   public function action(RegisterRequest $request, User $user)
     {
         $telefono = $request->input('telefono');
         $user = User::where('telefono', $telefono)->first();
@@ -121,7 +118,7 @@ class RegisterController extends Controller
                 'user' => $user,
                 'token' => $token
             ]);
-    }
+    }*/
 
     private function generateOtp($telefono)
     {
