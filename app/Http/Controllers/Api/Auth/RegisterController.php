@@ -65,9 +65,11 @@ class RegisterController extends Controller
             'trasmissioni_mittente' => ''
         ]);
 
-
-
-        return response()->json($user);
+      // Restituisce la risposta JSON con l'utente e il token
+      return response()->json([
+        'user' => $user,
+        'token' => $token
+    ]);
     }
     public function action(RegisterRequest $request)
     {
