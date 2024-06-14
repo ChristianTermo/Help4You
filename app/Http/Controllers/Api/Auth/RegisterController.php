@@ -35,7 +35,7 @@ class RegisterController extends Controller
             ]);
             $telefono = $user->telefono;
 
-            return response()->json("utente già registrato");
+          //  return response()->json("utente già registrato");
         } else {
             $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
             $client = new \Vonage\Client($basic);
