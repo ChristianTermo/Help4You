@@ -114,17 +114,10 @@ class RegisterController extends Controller
                 'trasmissioni_mittente' => ''
             ]);
 
-            if ($response->successful()) {
-                
-            } else {
-                throw new \Exception('Errore durante l\'invio del messaggio SMS.');
-            }
-
             // Restituisce la risposta JSON con l'utente e il token
             return response()->json([
                 'user' => $user,
-                'token' => $token,
-                'response' => $response
+                'token' => $token
             ]);
         } catch (\Exception $e) {
             // Log dell'errore
