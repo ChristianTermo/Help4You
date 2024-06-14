@@ -34,7 +34,7 @@ class RegisterController extends Controller
                 'expire_at' => Carbon::now()->addMinutes(10)
             ]);
             $telefono = $user->telefono;
-
+            $token = Auth::login($user);
           //  return response()->json("utente già registrato");
         } else {
             $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
@@ -53,6 +53,7 @@ class RegisterController extends Controller
             ]);
 
             $telefono = $request->input('telefono');
+            $token = Auth::login($user);
         }
         $message = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
             'op' => 'sendSMS2',
@@ -73,7 +74,6 @@ class RegisterController extends Controller
         $telefono = $request->input('telefono');
         $user = User::where('telefono', $telefono)->first();
 
-        try {
             if ($user) {
                 // Se l'utente esiste già, invia direttamente l'OTP
                 $otp = VerificationCode::create([
@@ -119,16 +119,6 @@ class RegisterController extends Controller
                 'user' => $user,
                 'token' => $token
             ]);
-        } catch (\Exception $e) {
-            // Log dell'errore
-            Log::error('Errore durante la registrazione o l\'invio dell\'OTP: ' . $e->getMessage());
-
-            // Restituisce una risposta di errore JSON
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Si è verificato un errore durante la registrazione o l\'invio dell\'OTP.'
-            ], 500);
-        }
     }
 
     private function generateOtp($telefono)
