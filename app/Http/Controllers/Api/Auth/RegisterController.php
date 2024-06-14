@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Log;
 class RegisterController extends Controller
 {
 
-    public function registertest(RegisterRequest $request, User $user)
+    public function action(RegisterRequest $request, User $user)
     {
         $user = User::where('telefono', $request['telefono'])->first();
 
