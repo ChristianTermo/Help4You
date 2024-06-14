@@ -70,7 +70,7 @@ class RegisterController extends Controller
     }
     public function action(RegisterRequest $request)
     {
-        $telefono = $request->input('telefono');;
+        $telefono = $request->input('telefono');
         $user = User::where('telefono', $telefono)->first();
 
         try {
@@ -81,7 +81,7 @@ class RegisterController extends Controller
                     'otp' => rand(10000, 99999),
                     'expire_at' => Carbon::now()->addMinutes(10)
                 ]);
-
+                $telefono = $user->telefono;
                 // Genera il token per l'utente esistente
                 $token = Auth::login($user);
             } else {
