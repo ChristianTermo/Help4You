@@ -16,6 +16,7 @@ class Service extends Model
         'price',
         'coverage_range',
         'starting_point',
+        'user_id'
     ];
 
     public function courses()
