@@ -44,16 +44,27 @@ class CustomerOrderController extends Controller
     public function update(Request $request, $id)
     {
         $customerOrder = CustomerOrder::find($id);
-        $customerOrder->order = request()->input('order');
-        $customerOrder->description = request()->input('description');
-        $customerOrder->category_id = request()->input('category_id');
-        $customerOrder->scadenza =  request()->input('scadenza');
-        $customerOrder->budget_min =   request()->input('budget_min');
-        $customerOrder->budget_max =   request()->input('budget_max');
-        $customerOrder->attachments = request()->input('attachments');
+    
+        if (!$customerOrder) {
+            return response()->json(['error' => 'Order not found'], 404);
+        }
+    
+        $validatedData = $request->validate([
+            'order' => 'sometimes|string',
+            'description' => 'sometimes|nullable|string',
+            'category_id' => 'sometimes|integer',
+            'scadenza' => 'sometimes|nullable|date',
+            'budget_min' => 'sometimes|nullable|numeric',
+            'budget_max' => 'sometimes|nullable|numeric',
+            'attachments' => 'sometimes|nullable|string',
+        ]);
+    
+        $customerOrder->fill($validatedData);
         $customerOrder->save();
+    
         return response()->json($customerOrder);
     }
+    
 
     public function delete(CustomerOrder $customerOrder, $id)
     {

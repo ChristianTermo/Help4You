@@ -35,7 +35,7 @@ class RegisterController extends Controller
             ]);
             $telefono = $user->telefono;
             $token = Auth::login($user);
-          //  return response()->json("utente già registrato");
+            //  return response()->json("utente già registrato");
         } else {
             $user = User::create([
                 'telefono' => $request['telefono'],
@@ -62,90 +62,11 @@ class RegisterController extends Controller
             'trasmissioni_mittente' => ''
         ]);
 
-      // Restituisce la risposta JSON con l'utente e il token
-      return response()->json([
-        'user' => $user,
-        'token' => $token
-    ]);
-    }
- /*   public function action(RegisterRequest $request, User $user)
-    {
-        $telefono = $request->input('telefono');
-        $user = User::where('telefono', $telefono)->first();
-
-            if ($user) {
-                // Se l'utente esiste già, invia direttamente l'OTP
-                $otp = VerificationCode::create([
-                    'telefono' => $request['telefono'],
-                    'otp' => rand(10000, 99999),
-                    'expire_at' => Carbon::now()->addMinutes(10)
-                ]);
-                $telefono = $user->telefono;
-                // Genera il token per l'utente esistente
-                $token = Auth::login($user);
-            } else {
-                
-                // Crea un nuovo utente
-                $user = User::create([
-                    'telefono' => $telefono,
-                    'role' => 'Regular User',
-                ]);
-                $user->assignRole('Regular User');
-
-                $otp = VerificationCode::create([
-                    'telefono' => $request['telefono'],
-                    'otp' => rand(10000, 99999),
-                    'expire_at' => Carbon::now()->addMinutes(10)
-                ]);
-
-                // Genera il token per il nuovo utente
-                $token = Auth::login($user);
-            }
-
-            // Invia il messaggio SMS
-            $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
-                'op' => 'sendSMS2',
-                'smpp_id' => env('SMPP_ID'),
-                'utenti_password' => env('SMPP_PASSWORD'),
-                'tipologie_sms_id' => '6',
-                'destinatari_destination_addr' => $telefono,
-                'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp,
-                'trasmissioni_mittente' => ''
-            ]);
-
-            // Restituisce la risposta JSON con l'utente e il token
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ]);
-    }*/
-
-    private function generateOtp($telefono)
-    {
-        return VerificationCode::create([
-            'telefono' => $telefono,
-            'otp' => rand(10000, 99999),
-            'expire_at' => Carbon::now()->addMinutes(10)
+        // Restituisce la risposta JSON con l'utente e il token
+        return response()->json([
+            'user' => $user,
+            'token' => $token
         ]);
-    }
-
-    private function sendSms($telefono, $otp)
-    {
-        $response = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
-            'op' => 'sendSMS2',
-            'smpp_id' => env('SMPP_ID'),
-            'utenti_password' => env('SMPP_PASSWORD'),
-            'tipologie_sms_id' => '6',
-            'destinatari_destination_addr' => $telefono,
-            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp,
-            'trasmissioni_mittente' => ''
-        ]);
-
-        if ($response->successful()) {
-            return $response->body();
-        } else {
-            throw new \Exception('Errore durante l\'invio del messaggio SMS.');
-        }
     }
 
     public function registerProfessional(RegisterRequest $request, User $user)

@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| Here is where you can register API Routes for your application. These
+| Routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
@@ -23,7 +23,7 @@ Route::post('registertest', 'App\Http\Controllers\Api\Auth\RegisterController@re
 Route::post('register/professional', 'App\Http\Controllers\Api\Auth\RegisterController@registerProfessional');
 //Route::post('auth/login', 'App\Http\Controllers\Api\Auth\LoginController@login');
 //Route::post('apple/login', 'api\Auth\AppleLoginController@login');
-route::post('auth/logout', 'App\Http\Controllers\Api\Auth\LogoutController');
+Route::post('auth/logout', 'App\Http\Controllers\Api\Auth\LogoutController');
 Route::post('generate/code', 'App\Http\Controllers\Api\CouponController@generateCode');
 Route::post('Verify/otp', 'App\Http\Controllers\Api\Auth\RegisterController@validateOtp');
 Route::post('resend/otp', 'App\Http\Controllers\Api\Auth\EditDataController@resendOtp');
@@ -34,7 +34,7 @@ Route::post('support', 'App\Http\Controllers\Api\Auth\MeController@submitSupport
 Route::post('update/user', 'App\Http\Controllers\Api\Auth\MeController@updateUserData');
 Route::get('recommendation', 'App\Http\Controllers\Api\SocialEngineController@raccomandazioni');
 Route::post('register', 'App\Http\Controllers\Api\SocialEngineController@register');
-route::get('get/categories', 'App\Http\Controllers\Api\CategoryController@getCategories');
+Route::get('get/categories', 'App\Http\Controllers\Api\CategoryController@getCategories');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/update/professional', 'App\Http\Controllers\Api\UpdateController@updateToProfessional');
@@ -45,15 +45,15 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('create/order', 'App\Http\Controllers\Api\CustomerOrderController@create');
     Route::post('update/order/{id}', 'App\Http\Controllers\Api\CustomerOrderController@update');
     Route::post('delete/order/{id}', 'App\Http\Controllers\Api\CustomerOrderController@delete');
-    route::get('get/orders', 'App\Http\Controllers\Api\CustomerOrderController@getOrders');
-    route::get('get/feedback', 'App\Http\Controllers\Api\FeedbackController@getFeedback');
+    Route::get('get/orders', 'App\Http\Controllers\Api\CustomerOrderController@getOrders');
+    Route::get('get/feedback', 'App\Http\Controllers\Api\FeedbackController@getFeedback');
     Route::post('submit/feedback/{id}', 'App\Http\Controllers\Api\FeedbackController@submitFeedback');
-    route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');
-    route::post('update/services/{id}', 'App\Http\Controllers\Api\ServicesController@update');
-    route::post('delete/services/{id}', 'App\Http\Controllers\Api\ServicesController@delete');
-    route::get('get/services', 'App\Http\Controllers\Api\CustomerOrderController@getServices');
-    route::get('get/proposals', 'App\Http\Controllers\Api\CustomerOrderController@getProposals');
-    route::post('create/proposal/{id}', 'App\Http\Controllers\Api\ServicesController@makeProposal');
+    Route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');
+    Route::post('update/services/{id}', 'App\Http\Controllers\Api\ServicesController@update');
+    Route::post('delete/services/{id}', 'App\Http\Controllers\Api\ServicesController@delete');
+    Route::get('get/services', 'App\Http\Controllers\Api\CustomerOrderController@getServices');
+    Route::get('get/proposals', 'App\Http\Controllers\Api\CustomerOrderController@getProposals');
+    Route::post('create/proposal/{id}', 'App\Http\Controllers\Api\ServicesController@makeProposal');
     Route::post('accept/proposal/{id}', 'App\Http\Controllers\Api\CustomerOrderController@acceptProposal');
     Route::post('message', 'App\Http\Controllers\Api\ChatController@message');
     Route::get('retrieve/messages/{to_id}', 'App\Http\Controllers\Api\ChatController@retrieveMessages');

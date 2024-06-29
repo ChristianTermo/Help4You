@@ -17,22 +17,24 @@ class FeedbackController extends Controller
 
         return $feedback;
     }
-
+    
     public function submitFeedback(Request $request, $id)
     {
-        $request->validate([
-            'rate' => 'required|between:1,5',
-            'notes' => 'required',
-        ]);
-
         $feedback = Feedback::find($id);
+
+        if (!$feedback) {
+            return response()->json(['error' => 'Feedback not found'], 404);
+        }
+
+        $feedback->rate = $request->input('rate');
         $feedback->rate = $request->input('rate');
         $feedback->notes = $request->input('notes');
         $feedback->in_pending = false;
         $feedback->save();
 
-        return $feedback;
+        return response()->json($feedback);
     }
+
 
     public function editFeedback(Request $request, $id)
     {

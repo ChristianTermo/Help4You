@@ -15,6 +15,7 @@ use App\Models\VerificationCode;
 use Illuminate\Support\Carbon;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Vonage\SMS\Message\SMS;
+use Illuminate\Support\Facades\Http;
 
 class EditDataController extends Controller
 {
@@ -68,27 +69,31 @@ class EditDataController extends Controller
 
     public function resendOtp(Request $request)
     {
-        $basic  = new \Vonage\Client\Credentials\Basic("44bc4bb2", "fYVcLeo0lMhmtjm1");
-        $client = new \Vonage\Client($basic);
-
+        $telefono = $request->input('telefono');
+        $user = User::where('telefono', '=', $telefono);
         $otp = VerificationCode::create([
+            'telefono' => $request['telefono'],
             'otp' => rand(10000, 99999),
             'expire_at' => Carbon::now()->addMinutes(10)
         ]);
 
-        $telefono = $request->telefono;
+        $token = Auth::login($user);
 
-        $response = $client->sms()->send(
-            new SMS($telefono, 'Help4You', 'Il tuo codice di verifica è:' . "\n" . $otp->otp)
-        );
+        $message = Http::get('https://www.services.europsms.com/smpp-gateway.php', [
+            'op' => 'sendSMS2',
+            'smpp_id' => 'christiantermo40@gmail.com',
+            'utenti_password' => 'termo',
+            'tipologie_sms_id' => '6',
+            'destinatari_destination_addr' => $telefono,
+            'trasmissioni_messaggio' => 'Il tuo codice di verifica è: ' . $otp->otp,
+            'trasmissioni_mittente' => ''
+        ]);
 
-        $message = $response->current();
-
-        if ($message->getStatus() == 0) {
-            echo "The message was sent successfully\n";
-        } else {
-            echo "The message failed with status: " . $message->getStatus() . "\n";
-        }
+        // Restituisce la risposta JSON con l'utente e il token
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
 
