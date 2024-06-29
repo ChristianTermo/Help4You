@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('to_user');
             $table->foreign('from_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('to_user')->references('id')->on('users')->onDelete('cascade');
-            $table->date('delivery_time');
+            $table->date('delivery_time')->date_format('Y-m-d');
             $table->boolean('is_accepted')->nullable();
             $table->timestamps();
         });

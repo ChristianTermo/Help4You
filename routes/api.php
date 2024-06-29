@@ -51,7 +51,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('create/services', 'App\Http\Controllers\Api\ServicesController@create');
     Route::post('update/services/{id}', 'App\Http\Controllers\Api\ServicesController@update');
     Route::post('delete/services/{id}', 'App\Http\Controllers\Api\ServicesController@delete');
-    Route::get('get/services', 'App\Http\Controllers\Api\CustomerOrderController@getServices');
+    Route::get('get/services', 'App\Http\Controllers\Api\ServicesController@getServices');
     Route::get('get/proposals', 'App\Http\Controllers\Api\CustomerOrderController@getProposals');
     Route::post('create/proposal/{id}', 'App\Http\Controllers\Api\ServicesController@makeProposal');
     Route::post('accept/proposal/{id}', 'App\Http\Controllers\Api\CustomerOrderController@acceptProposal');

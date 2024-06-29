@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerOrder;
+use App\Models\Proposal;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
@@ -109,7 +110,7 @@ class CustomerOrderController extends Controller
                 ->where('id', $id)
                 ->delete();
         }
-
-        return response()->json('proposal updated');
+        $proposal = Proposal::find($id);
+        return response()->json($proposal);
     }
 }
