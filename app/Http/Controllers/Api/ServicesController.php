@@ -48,29 +48,38 @@ class ServicesController extends Controller
 
         return $service;
     }
+    
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'starting_point'  => 'required',
-            'category' => 'required|exists:categories',
-            'coverage_range' => 'required',
-            'price' => 'required',
+            'title' => 'sometimes|required',
+            'description' => 'sometimes|required',
+            'starting_point' => 'sometimes|required',
+            'category' => 'sometimes|required|exists:categories,id',
+            'coverage_range' => 'sometimes|required',
+            'price' => 'sometimes|required',
         ]);
 
-        $service = Service::create([
-            'title' => $request['title'],
-            'description' => $request['description'],
-            'user_id' => Auth::user()->id,
-            'starting_point' => $request['starting_point'],
-            'category' => $request['category'],
-            'coverage_range' => $request['coverage_range'],
-            'price' => $request['price'],
-        ]);
+        $service = Service::find($id);
 
-        return $service;
+        if (!$service) {
+            return response()->json(['error' => 'Service not found'], 404);
+        }
+
+        $service->fill($request->only([
+            'title',
+            'description',
+            'starting_point',
+            'category',
+            'coverage_range',
+            'price',
+        ]));
+
+        $service->save();
+
+        return response()->json($service);
     }
+
 
     public function delete(Service $service, $id)
     {
@@ -86,14 +95,14 @@ class ServicesController extends Controller
 
     public function makeProposal(Request $request, $id)
     {
-          $request->validate([
+        $request->validate([
             'price' => 'required',
             'description' => 'required',
             'delivery_time' => 'required',
         ]);
 
         $to_user = CustomerOrder::find($id);
-        
+
 
         $proposal = Proposal::create([
             'price' => $request['price'],
