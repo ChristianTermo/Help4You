@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class SendFeedbackRequest extends Command
 {
@@ -33,6 +34,11 @@ class SendFeedbackRequest extends Command
             ->where('delivery_time', '<', Carbon::now()->format('Y-m-d'))
             ->get();
     
+        if ($proposals->isEmpty()) {
+            Log::info('No proposals found for the given condition.');
+            return;
+        }
+    
         foreach ($proposals as $proposal) {
             DB::table('feedback')->insert([
                 'from_user' => $proposal->to_user,
@@ -41,6 +47,9 @@ class SendFeedbackRequest extends Command
     
             DB::table('proposals')->where('id', $proposal->id)->delete();
         }
+    
+        Log::info('Feedback records created and proposals deleted successfully.');
     }
+    
     
 } 
