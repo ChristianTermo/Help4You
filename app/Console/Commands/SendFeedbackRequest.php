@@ -29,17 +29,18 @@ class SendFeedbackRequest extends Command
      */
     public function handle()
     {
-        $proposal =  DB::table('proposals')->where('delivery_time', '<', Carbon::now()->format("Y-m-d"))->get();
-        $id =  $proposal->collect()->pluck('id');
-        foreach ($id as  $value) {
-            $toUser =  DB::table('proposals')->where('delivery_time', '<', Carbon::now()->format("Y-m-d"))->value('from_user');
-            $fromUser = DB::table('proposals')->where('delivery_time', '<', Carbon::now()->format("Y-m-d"))->value('to_user');
-            DB::table('feedback')->when(count($proposal) > 0)->insert([
-                'from_user' => $fromUser,
-                'to_user' => $toUser
+        $proposals = DB::table('proposals')
+            ->where('delivery_time', '<', Carbon::now()->format('Y-m-d'))
+            ->get();
+    
+        foreach ($proposals as $proposal) {
+            DB::table('feedback')->insert([
+                'from_user' => $proposal->to_user,
+                'to_user' => $proposal->from_user,
             ]);
-            $old =  DB::table('proposals')->where('delivery_time', '<', Carbon::now()->format("Y-m-d"))->where('id', '=', $value);
-            $old->delete();
+    
+            DB::table('proposals')->where('id', $proposal->id)->delete();
         }
     }
-}
+    
+} 
