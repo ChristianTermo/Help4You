@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Geocoder\Laravel\ProviderAndDumperAggregator as Geocoder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ServicesController extends Controller
 {
@@ -48,7 +49,7 @@ class ServicesController extends Controller
 
         return $service;
     }
-    
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -102,7 +103,7 @@ class ServicesController extends Controller
         ]);
 
         $to_user = CustomerOrder::find($id);
-
+        Log::debug("lei è italiana");
 
         $proposal = Proposal::create([
             'price' => $request['price'],
