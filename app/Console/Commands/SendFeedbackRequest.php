@@ -35,7 +35,7 @@ class SendFeedbackRequest extends Command
             ->get();
     
         if ($proposals->isEmpty()) {
-            Log::info('No proposals found for the given condition.');
+            Log::debug('No proposals found for the given condition.');
             return;
         }
     
@@ -48,7 +48,7 @@ class SendFeedbackRequest extends Command
             DB::table('proposals')->where('id', $proposal->id)->delete();
         }
     
-        Log::info('Feedback records created and proposals deleted successfully.');
+        Log::debug('Feedback records created and proposals deleted successfully.');
     }
     
     
